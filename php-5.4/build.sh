@@ -12,6 +12,14 @@
 #
 PHP_VERSION=5.4.22
 ZTS_VERSION=20100525
+# Third Party Module Versions
+RABBITMQ_C_VERSION="0.4.1"
+declare -A MODULES
+MODULES[APC]="3.1.9"
+MODULES[mongo]="1.4.5"
+MODULES[redis]="2.2.4"
+MODULES[xdebug]="2.2.3"
+MODULES[amqp]="1.2.0"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -75,6 +83,52 @@ function build_php54() {
 	cd "$BUILD_DIR"
 }
 
+build_librabbit() {
+	cd "$BUILD_DIR"
+	if [ ! -d "rabbitmq-c-$RABBITMQ_C_VERSION" ]; then
+                curl -L -O "https://github.com/alanxz/rabbitmq-c/releases/download/v$RABBITMQ_C_VERSION/rabbitmq-c-$RABBITMQ_C_VERSION.tar.gz"
+                tar zxf "rabbitmq-c-$RABBITMQ_C_VERSION.tar.gz"
+                rm "rabbitmq-c-$RABBITMQ_C_VERSION.tar.gz"
+        fi
+	cd "rabbitmq-c-$RABBITMQ_C_VERSION"
+	./configure --prefix="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
+	make
+	make install
+	cd "$BUILD_DIR"
+}
+
+build_external_extension() {
+	cd "$BUILD_DIR"
+	NAME=$1
+	VERSION="${MODULES["$NAME"]}"
+	if [ "$NAME" == "amqp" ]; then
+		build_librabbit
+	fi
+	if [ ! -d "$NAME-$VERSION" ]; then
+                curl -L -O "http://pecl.php.net/get/$NAME-$VERSION.tgz"
+                tar zxf "$NAME-$VERSION.tgz"
+                rm "$NAME-$VERSION.tgz"
+		rm package.xml
+        fi
+	cd "$NAME-$VERSION"
+	"$INSTALL_DIR/php/bin/phpize"
+	if [ "$NAME" == "amqp" ]; then
+		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --with-librabbitmq-dir="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
+	else
+		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
+	fi
+	make
+	make install
+	cd "$BUILD_DIR"
+}
+
+build_external_extensions() {
+	for MODULE in "${!MODULES[@]}"; do
+		echo "Building [$MODULE]"
+		build_external_extension "$MODULE"
+	done
+}
+
 package_php_extension() {
 	cd "$INSTALL_DIR"
 	NAME=$1
@@ -128,7 +182,7 @@ package_php() {
 }
 
 # clean up previous work
-rm -rf "$INSTALL_DIR"
+#rm -rf "$INSTALL_DIR"
 
 # setup build directory
 if [ ! -d "$BUILD_DIR" ]; then
@@ -136,18 +190,21 @@ if [ ! -d "$BUILD_DIR" ]; then
 fi
 
 # build and install php
-build_php54
+#build_php54
+build_external_extensions
 
 # Remove unused files
-rm "$INSTALL_DIR/php/etc/php-fpm.conf.default"
-rm -rf "$INSTALL_DIR/php/include"
-rm -rf "$INSTALL_DIR/php/php/man"
-rm -rf "$INSTALL_DIR/php/lib/php/build"
+#rm "$INSTALL_DIR/php/etc/php-fpm.conf.default"
+#rm -rf "$INSTALL_DIR/php/include"
+#rm -rf "$INSTALL_DIR/php/php/man"
+#rm -rf "$INSTALL_DIR/php/lib/php/build"
 
 # Build binaries - one for PHP, one for FPM and one for each module
-package_php_extensions
-package_php_fpm
-package_php
+#package_php_extensions
+#package_php_fpm
+#package_php
+
+#cp "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1" "$INSTALL_DIR/php/lib/"
 
 echo "Done!"
 
