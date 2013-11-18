@@ -112,6 +112,35 @@ function build_httpd_24() {
 	cd "$BUILD_DIR"
 }
 
+function package_module() {
+        cd "$INSTALL_DIR"
+        NAME=$1
+        tar cf "httpd-$NAME-$HTTPD_VERSION.tar" "httpd/modules/$NAME.so"
+        if [ $# -gt 1 ]; then
+                for FILE in "${@:2}"; do
+                        if [[ $FILE == /* ]]; then
+                                cp $FILE httpd/lib
+                                FILE=`basename $FILE`
+                        else
+                                cp "/usr/lib/$FILE" httpd/lib/
+                        fi
+                        tar rf "httpd-$NAME-$HTTPD_VERSION.tar" "httpd/lib/$FILE"
+                done
+        fi
+        gzip -f -9 "httpd-$NAME-$HTTPD_VERSION.tar"
+        shasum "httpd-$NAME-$HTTPD_VERSION.tar.gz" > "httpd-$NAME-$HTTPD_VERSION.tar.gz.sha1"
+	rm "httpd/modules/$NAME.so"
+        cd "$INSTALL_DIR"
+}
+
+function package_modules() {
+        cd "$INSTALL_DIR"
+	for MOD in $(ls httpd/modules/*.so); do
+		MOD=`basename "$MOD"`
+		package_module "${MOD%%.*}"
+	done
+}
+
 # clean up previous work
 rm -rf "$INSTALL_DIR"
 
@@ -123,6 +152,7 @@ fi
 # build required libs & httpd
 build_required_libs
 build_httpd_24
+package_modules
 
 # Remove unnecessary files and config
 cd "$INSTALL_DIR/httpd"
@@ -156,8 +186,7 @@ chmod 755 apachectl
 
 # Package the binary
 cd "$INSTALL_DIR"
-mv httpd "httpd-$HTTPD_VERSION-bin"
-tar czf "httpd-$HTTPD_VERSION-bin.tar.gz" "httpd-$HTTPD_VERSION-bin"
-shasum "httpd-$HTTPD_VERSION-bin.tar.gz" > "httpd-$HTTPD_VERSION-bin.tar.gz.sha1"
+tar czf "httpd-$HTTPD_VERSION.tar.gz" httpd
+shasum "httpd-$HTTPD_VERSION.tar.gz" > "httpd-$HTTPD_VERSION.tar.gz.sha1"
 
 echo "Done!"
