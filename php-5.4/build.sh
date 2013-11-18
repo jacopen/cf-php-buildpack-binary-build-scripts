@@ -124,7 +124,6 @@ build_external_extension() {
 
 build_external_extensions() {
 	for MODULE in "${!MODULES[@]}"; do
-		echo "Building [$MODULE]"
 		build_external_extension "$MODULE"
 	done
 }
@@ -135,11 +134,16 @@ package_php_extension() {
 	tar cf "php-$NAME-$PHP_VERSION.tar" "php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/$NAME.so"
 	if [ $# -gt 1 ]; then
 		for FILE in "${@:2}"; do
-			cp "/usr/lib/$FILE" php/lib/
+			if [[ $FILE == /* ]]; then
+				cp $FILE php/lib
+				FILE=`basename $FILE`
+			else
+				cp "/usr/lib/$FILE" php/lib/
+			fi
 			tar rf "php-$NAME-$PHP_VERSION.tar" "php/lib/$FILE"
 		done
 	fi
-	gzip -9 "php-$NAME-$PHP_VERSION.tar"
+	gzip -f -9 "php-$NAME-$PHP_VERSION.tar"
 	shasum "php-$NAME-$PHP_VERSION.tar.gz" > "php-$NAME-$PHP_VERSION.tar.gz.sha1"
 	cd "$INSTALL_DIR"
 }
@@ -159,6 +163,12 @@ package_php_extensions() {
 	package_php_extension "imap" "libc-client.so.2007e"
 	package_php_extension "mcrypt" "libmcrypt.so.4"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
+	# package third party extensions
+	package_php_extension "apc"
+	package_php_extension "mongo"
+	package_php_extension "redis"
+	package_php_extension "xdebug"
+	package_php_extension "amqp" "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
@@ -182,7 +192,7 @@ package_php() {
 }
 
 # clean up previous work
-#rm -rf "$INSTALL_DIR"
+rm -rf "$INSTALL_DIR"
 
 # setup build directory
 if [ ! -d "$BUILD_DIR" ]; then
@@ -190,21 +200,19 @@ if [ ! -d "$BUILD_DIR" ]; then
 fi
 
 # build and install php
-#build_php54
+build_php54
 build_external_extensions
 
 # Remove unused files
-#rm "$INSTALL_DIR/php/etc/php-fpm.conf.default"
-#rm -rf "$INSTALL_DIR/php/include"
-#rm -rf "$INSTALL_DIR/php/php/man"
-#rm -rf "$INSTALL_DIR/php/lib/php/build"
+rm "$INSTALL_DIR/php/etc/php-fpm.conf.default"
+rm -rf "$INSTALL_DIR/php/include"
+rm -rf "$INSTALL_DIR/php/php/man"
+rm -rf "$INSTALL_DIR/php/lib/php/build"
 
 # Build binaries - one for PHP, one for FPM and one for each module
-#package_php_extensions
-#package_php_fpm
-#package_php
-
-#cp "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1" "$INSTALL_DIR/php/lib/"
+package_php_extensions
+package_php_fpm
+package_php
 
 echo "Done!"
 
