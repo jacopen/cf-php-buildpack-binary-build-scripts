@@ -119,6 +119,9 @@ if [ ! -d "$BUILD_DIR" ]; then
 	mkdir "$BUILD_DIR"
 fi
 
+# include common functionality
+source "$BUILD_DIR/../../php-common/build.sh"
+
 # build and install php
 build_php54
 build_external_extensions

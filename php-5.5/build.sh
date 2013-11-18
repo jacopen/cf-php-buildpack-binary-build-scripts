@@ -25,8 +25,6 @@ BUILD_DIR=`pwd`/build
 ##################################################################
 set -e
 
-source "$BUILD_DIR/../../php-common/build.sh"
-
 function build_php55() {
 	cd "$BUILD_DIR"
 	if [ "n$PHP_VERSION" == "n" ]; then
@@ -116,6 +114,9 @@ rm -rf "$INSTALL_DIR"
 if [ ! -d "$BUILD_DIR" ]; then
 	mkdir "$BUILD_DIR"
 fi
+
+# include common functionality
+source "$BUILD_DIR/../../php-common/build.sh"
 
 # build and install php
 build_php55
