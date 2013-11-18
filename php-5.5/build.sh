@@ -2,7 +2,7 @@
 #
 ##################################################################
 #
-# Script to build PHP 5.4 for use with CloudFoundry
+# Script to build PHP 5.5 for use with CloudFoundry
 #
 #   Author:  Daniel Mikusa
 #     Date:  11-17-2013
@@ -10,12 +10,11 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.4.22
-ZTS_VERSION=20100525
+PHP_VERSION=5.5.6
+ZTS_VERSION=20121212
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.4.1"
 declare -A MODULES
-MODULES[APC]="3.1.9"
 MODULES[mongo]="1.4.5"
 MODULES[redis]="2.2.4"
 MODULES[xdebug]="2.2.3"
@@ -28,10 +27,10 @@ set -e
 
 source "$BUILD_DIR/../../php-common/build.sh"
 
-function build_php54() {
+function build_php55() {
 	cd "$BUILD_DIR"
 	if [ "n$PHP_VERSION" == "n" ]; then
-		PHP_VERSION=5.4.22
+		PHP_VERSION=5.5.6
 	fi
 	if [ ! -d "php-$PHP_VERSION" ]; then
 		curl -L -o "php-$PHP_VERSION.tar.bz2" "http://us1.php.net/get/php-$PHP_VERSION.tar.bz2/from/us2.php.net/mirror"
@@ -100,7 +99,6 @@ package_php_extensions() {
 	package_php_extension "mcrypt" "libmcrypt.so.4"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
 	# package third party extensions
-	package_php_extension "apc"
 	package_php_extension "mongo"
 	package_php_extension "redis"
 	package_php_extension "xdebug"
@@ -120,7 +118,7 @@ if [ ! -d "$BUILD_DIR" ]; then
 fi
 
 # build and install php
-build_php54
+build_php55
 build_external_extensions
 
 # Remove unused files
