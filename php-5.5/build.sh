@@ -76,7 +76,7 @@ function build_php55() {
 		--enable-exif \
 		--with-openssl=shared \
 		--enable-fpm
-	make
+	make -j 3
 	make install
 	cd "$BUILD_DIR"
 }

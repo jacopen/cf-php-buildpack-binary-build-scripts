@@ -79,7 +79,7 @@ function build_php54() {
 		--enable-exif \
 		--with-openssl=shared \
 		--enable-fpm
-	make
+	make -j 3
 	make install
 	cd "$BUILD_DIR"
 }
