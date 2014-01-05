@@ -31,7 +31,7 @@ function build_apr() {
 	fi
 	cd "apr-$APR_VERSION"
 	./configure --prefix="$INSTALL_DIR/libapr-$APR_VERSION"
-	make
+	make -j 3
 	make install
 	cd ..
 }
@@ -49,7 +49,7 @@ function build_apr_iconv() {
 	./configure \
 		--prefix="$INSTALL_DIR/libapr-iconv-$APR_ICONV_VERSION" \
 		--with-apr="$INSTALL_DIR/libapr-$APR_VERSION/bin/apr-1-config"
-	make
+	make -j 3
 	make install
 	cd ..
 }
@@ -74,7 +74,7 @@ function build_apr_util() {
 		--with-gdbm \
 		--with-ldap \
 		--with-apr="$INSTALL_DIR/libapr-$APR_VERSION"
-	make
+	make -j 3
 	make install
 	cd ..
 }
@@ -107,7 +107,7 @@ function build_httpd_24() {
 		--disable-isapi \
 		--disable-dav \
 		--disable-dialup
-	make
+	make -j 3
 	make install
 	cd "$BUILD_DIR"
 }
