@@ -10,10 +10,10 @@
 ##################################################################
 #  Configuration
 #
-APR_VERSION=1.4.8
+APR_VERSION=1.5.0
 APR_ICONV_VERSION=1.2.1
-APR_UTIL_VERSION=1.5.2
-HTTPD_VERSION=2.4.6
+APR_UTIL_VERSION=1.5.3
+HTTPD_VERSION=2.4.7
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
