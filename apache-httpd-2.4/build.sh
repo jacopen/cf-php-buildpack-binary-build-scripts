@@ -190,8 +190,9 @@ tar czf "httpd-$HTTPD_VERSION.tar.gz" httpd
 shasum "httpd-$HTTPD_VERSION.tar.gz" > "httpd-$HTTPD_VERSION.tar.gz.sha1"
 
 # Move packages to this directory
-mkdir "httpd-$HTTPD_VERSION"
-mv "/tmp/staged/app/httpd-*.gz" "httpd-$HTTPD_VERSION"
-mv "/tmp/staged/app/httpd-*.gz.sha1" "httpd-$HTTPD_VERSION"
+cd "$BUILD_DIR/../"
+mkdir -p "httpd-$HTTPD_VERSION"
+mv /tmp/staged/app/httpd-*.gz "httpd-$HTTPD_VERSION"
+mv /tmp/staged/app/httpd-*.gz.sha1 "httpd-$HTTPD_VERSION"
 
 echo "Done!"

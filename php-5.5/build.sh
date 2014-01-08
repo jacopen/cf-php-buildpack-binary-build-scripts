@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.6
+PHP_VERSION=5.5.7
 ZTS_VERSION=20121212
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.4.1"
@@ -132,6 +132,12 @@ rm -rf "$INSTALL_DIR/php/lib/php/build"
 package_php_extensions
 package_php_fpm
 package_php
+
+# Move packages to this directory
+cd "$BUILD_DIR/../"
+mkdir -p "php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz "php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz.sha1 "php-$PHP_VERSION"
 
 echo "Done!"
 

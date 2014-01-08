@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.4.22
+PHP_VERSION=5.4.23
 ZTS_VERSION=20100525
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.4.1"
@@ -25,8 +25,6 @@ INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
 ##################################################################
 set -e
-
-source "$BUILD_DIR/../../php-common/build.sh"
 
 function build_php54() {
 	cd "$BUILD_DIR"
@@ -136,6 +134,12 @@ rm -rf "$INSTALL_DIR/php/lib/php/build"
 package_php_extensions
 package_php_fpm
 package_php
+
+# Move packages to this directory
+cd "$BUILD_DIR/../"
+mkdir -p "php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz "php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz.sha1 "php-$PHP_VERSION"
 
 echo "Done!"
 
