@@ -1,3 +1,6 @@
 apache-httpd-2.4/build
+apache-httpd-2.4/httpd-2.4.*
 php-5.4/build
+php-5.4/php-5.4.*
 php-5.5/build
+php-5.5/php-5.5.*
