@@ -71,6 +71,7 @@ function build_php55() {
 		--with-imap-ssl=shared \
 		--with-ldap=shared \
 		--with-ldap-sasl \
+		--with-zlib=shared \
 		--enable-mbstring \
 		--enable-mbregex \
 		--enable-exif \
@@ -96,6 +97,7 @@ package_php_extensions() {
 	package_php_extension "imap" "libc-client.so.2007e"
 	package_php_extension "mcrypt" "libmcrypt.so.4"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
+	package_php_extension "zlib"
 	# package third party extensions
 	package_php_extension "mongo"
 	package_php_extension "redis"
