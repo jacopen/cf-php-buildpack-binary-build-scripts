@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-NGINX_VERSION=1.5.8
+NGINX_VERSION=1.5.9
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -23,7 +23,7 @@ function build_nginx_15() {
 		NGINX_VERSION=1.5.8
 	fi
 	if [ ! -d "nginx-$NGINX_VERSION" ]; then
-		curl -L -O "http://nginx.org/download/nginx-1.5.8.tar.gz"
+		curl -L -O "http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz"
 		tar zxf "nginx-$NGINX_VERSION.tar.gz"
 		rm "nginx-$NGINX_VERSION.tar.gz"
 	fi
