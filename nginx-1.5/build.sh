@@ -20,7 +20,7 @@ set -e
 function build_nginx_15() {
 	cd "$BUILD_DIR"
 	if [ "n$NGINX_VERSION" == "n" ]; then
-		NGINX_VERSION=2.4.6
+		NGINX_VERSION=1.5.8
 	fi
 	if [ ! -d "nginx-$NGINX_VERSION" ]; then
 		curl -L -O "http://nginx.org/download/nginx-1.5.8.tar.gz"
