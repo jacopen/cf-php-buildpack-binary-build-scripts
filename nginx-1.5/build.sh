@@ -60,8 +60,7 @@ build_nginx_15
 
 # Remove unnecessary files and config
 cd "$INSTALL_DIR/nginx"
-rm -rf html/ conf/scgi_params* conf/uwsgi_params* conf/*.default
-rm -rf conf/koi-* conf/win-utf
+rm -rf html/ conf/*
 
 # Package the binary
 cd "$INSTALL_DIR"
