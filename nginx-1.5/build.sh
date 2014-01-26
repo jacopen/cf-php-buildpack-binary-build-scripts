@@ -30,6 +30,7 @@ function build_nginx_15() {
 	cd "nginx-$NGINX_VERSION"
 	./configure \
                 --prefix="$INSTALL_DIR/nginx" \
+		--error-log-path="/home/vcap/logs/nginx-error.log" \
 		--with-http_ssl_module \
 		--with-http_realip_module \
 		--with-http_gunzip_module \
