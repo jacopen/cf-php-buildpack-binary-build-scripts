@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.7
+PHP_VERSION=5.5.9
 ZTS_VERSION=20121212
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.4.1"
