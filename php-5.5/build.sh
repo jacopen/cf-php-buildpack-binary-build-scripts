@@ -10,10 +10,10 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.9
+PHP_VERSION=5.5.10
 ZTS_VERSION=20121212
 # Third Party Module Versions
-RABBITMQ_C_VERSION="0.4.1"
+RABBITMQ_C_VERSION="0.5.0"
 declare -A MODULES
 MODULES[mongo]="1.4.5"
 MODULES[redis]="2.2.4"
