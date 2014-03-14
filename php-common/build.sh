@@ -82,6 +82,41 @@ package_php_fpm() {
 	cd "$INSTALL_DIR"
 }
 
+package_php_cgi() {
+	cd "$INSTALL_DIR"
+	tar czf "php-cgi-$PHP_VERSION.tar.gz" php/bin/php-cgi
+	shasum "php-cgi-$PHP_VERSION.tar.gz" > "php-cgi-$PHP_VERSION.tar.gz.sha1"
+	rm php/bin/php-cgi
+	cd "$INSTALL_DIR"
+}
+
+package_php_cli() {
+	cd "$INSTALL_DIR"
+	tar czf "php-cli-$PHP_VERSION.tar.gz" php/bin/php php/bin/phar php/bin/phar.phar 
+	shasum "php-cli-$PHP_VERSION.tar.gz" > "php-cli-$PHP_VERSION.tar.gz.sha1"
+	rm php/bin/php php/bin/phar php/bin/phar.phar
+	cd "$INSTALL_DIR"
+}
+
+package_php_pear() {
+	cd "$INSTALL_DIR"
+	tar czf "php-pear-$PHP_VERSION.tar.gz" \
+		--exclude=php/lib/php/extensions \
+			php/bin/pear \
+			php/bin/pecl \
+			php/bin/peardev \
+			php/etc/pear.conf \
+			php/lib/php
+	shasum "php-pear-$PHP_VERSION.tar.gz" > "php-pear-$PHP_VERSION.tar.gz.sha1"
+	rm php/bin/pear php/bin/pecl php/bin/peardev php/etc/pear.conf
+	# remove everything except 'extensions' dir
+	mv php/lib/php/extensions /tmp/staged/extensions
+	rm -rf php/lib/php
+	mkdir php/lib/php
+	mv /tmp/staged/extensions php/lib/php/extensions
+	cd "$INSTALL_DIR"
+}
+
 package_php() {
 	cd "$INSTALL_DIR"
 	tar czf "php-$PHP_VERSION.tar.gz" "php"

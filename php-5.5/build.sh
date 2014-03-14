@@ -40,7 +40,6 @@ function build_php55() {
 	./configure \
 		--prefix="$INSTALL_DIR/php" \
 		--with-config-file-path=/home/vcap/app/php/etc \
-		--disable-cli \
 		--disable-static \
 		--enable-shared \
 		--enable-ftp \
@@ -51,7 +50,6 @@ function build_php55() {
 		--enable-calendar \
 		--with-kerberos \
 		--enable-zip \
-		--without-pear \
 		--with-bz2=shared \
 		--with-curl=shared \
 		--enable-dba=shared \
@@ -134,6 +132,9 @@ rm -rf "$INSTALL_DIR/php/lib/php/build"
 # Build binaries - one for PHP, one for FPM and one for each module
 package_php_extensions
 package_php_fpm
+package_php_cgi
+package_php_cli
+package_php_pear
 package_php
 
 # Move packages to this directory
