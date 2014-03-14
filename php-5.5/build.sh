@@ -29,7 +29,8 @@ set -e
 function build_php55() {
 	cd "$BUILD_DIR"
 	if [ "n$PHP_VERSION" == "n" ]; then
-		PHP_VERSION=5.5.6
+		echo "No PHP Version Specified!!"
+		exit -1
 	fi
 	if [ ! -d "php-$PHP_VERSION" ]; then
 		curl -L -o "php-$PHP_VERSION.tar.bz2" "http://us1.php.net/get/php-$PHP_VERSION.tar.bz2/from/us2.php.net/mirror"
