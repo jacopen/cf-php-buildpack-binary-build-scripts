@@ -88,4 +88,20 @@ package_php() {
 	shasum "php-$PHP_VERSION.tar.gz" > "php-$PHP_VERSION.tar.gz.sha1"
 	cd "$INSTALL_DIR"
 }
+
+rename_with_postfix() {
+	cd "$BUILD_DIR/../"
+	if [ "n$VERSION_POSTFIX" != "n" ]; then
+		echo "Renaming with version postfix [$VERSION_POSTFIX]"
+		mv "php-$PHP_VERSION" "php-$PHP_VERSION$VERSION_POSTFIX"
+		cd "php-$PHP_VERSION$VERSION_POSTFIX"
+		for f in `ls *.gz`; do
+			mv $f "`basename $f $PHP_VERSION.tar.gz`$PHP_VERSION$VERSION_POSTFIX.tar.gz"
+		done
+		for f in `ls *.sha1`; do
+			mv $f "`basename $f $PHP_VERSION.tar.gz.sha1`$PHP_VERSION$VERSION_POSTFIX.tar.gz.sha1"
+		done
+	fi
+	cd "$BUILD_DIR/../"
+}
 ##################################################################
