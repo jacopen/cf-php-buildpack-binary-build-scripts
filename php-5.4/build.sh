@@ -78,6 +78,10 @@ function build_php54() {
 		--enable-exif \
 		--with-openssl=shared \
 		--enable-fpm
+	# Fix path on phar.phar
+	sed 's|PHP_PHARCMD_BANG = `.*`|PHP_PHARCMD_BANG = /home/vcap/app/php/bin/php|' Makefile > Makefile.phar-fix
+	mv Makefile.phar-fix Makefile
+	# Build
 	make -j 3
 	make install
 	cd "$BUILD_DIR"
