@@ -92,6 +92,11 @@ package_php_cgi() {
 
 package_php_cli() {
 	cd "$INSTALL_DIR"
+	sed 's_/tmp/staged/app_/home/vcap/app/php_g' php/bin/phar.phar > phar.fixed
+	mv phar.fixed php/bin/phar.phar
+	chmod 755 php/bin/phar.phar
+	rm php/bin/phar
+	ln -s /home/vcap/app/php/bin/phar.phar php/bin/phar
 	tar czf "php-cli-$PHP_VERSION.tar.gz" php/bin/php php/bin/phar php/bin/phar.phar 
 	shasum "php-cli-$PHP_VERSION.tar.gz" > "php-cli-$PHP_VERSION.tar.gz.sha1"
 	rm php/bin/php php/bin/phar php/bin/phar.phar
