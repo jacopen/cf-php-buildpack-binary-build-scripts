@@ -63,7 +63,8 @@ build_external_extension() {
 		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" \
 			--with-libmemcached-dir="$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION" \
 			--enable-memcached-msgpack \
-			--enable-memcached-igbinary
+			--enable-memcached-igbinary \
+			--enable-memcached-json
 	else
 		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
 	fi
