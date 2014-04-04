@@ -82,7 +82,7 @@ function build_php54() {
 	sed 's|PHP_PHARCMD_BANG = `.*`|PHP_PHARCMD_BANG = /home/vcap/app/php/bin/php|' Makefile > Makefile.phar-fix
 	mv Makefile.phar-fix Makefile
 	# Build
-	make -j 3
+	make -j 5
 	make install
 	cd "$BUILD_DIR"
 }

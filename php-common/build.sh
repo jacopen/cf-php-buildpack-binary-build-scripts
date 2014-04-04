@@ -17,7 +17,7 @@ build_librabbit() {
         fi
 	cd "rabbitmq-c-$RABBITMQ_C_VERSION"
 	./configure --prefix="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
-	make -j 3
+	make -j 5
 	make install
 	cd "$BUILD_DIR"
 }
@@ -42,7 +42,7 @@ build_external_extension() {
 	else
 		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
 	fi
-	make -j 3
+	make -j 5
 	make install
 	cd "$BUILD_DIR"
 }
