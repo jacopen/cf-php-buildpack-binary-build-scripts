@@ -22,13 +22,32 @@ build_librabbit() {
 	cd "$BUILD_DIR"
 }
 
+build_libmemcached() {
+	cd "$BUILD_DIR"
+	if [ ! -d "libmemcached-$LIBMEMCACHED_VERSION" ]; then
+		curl -L -O "https://launchpad.net/libmemcached/1.0/$LIBMEMCACHED_VERSION/+download/libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
+                tar zxf "libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
+                rm "libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
+        fi
+	cd "libmemcached-$LIBMEMCACHED_VERSION"
+	./configure --prefix="$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION"
+	make -j 5
+	make install
+	cd "$BUILD_DIR"
+}
+
 build_external_extension() {
 	cd "$BUILD_DIR"
 	NAME=$1
 	VERSION="${MODULES["$NAME"]}"
+	# Build required libraries
 	if [ "$NAME" == "amqp" ]; then
 		build_librabbit
 	fi
+	if [ "$NAME" == "memcached" ]; then
+		build_libmemcached
+	fi
+	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then
                 curl -L -O "http://pecl.php.net/get/$NAME-$VERSION.tgz"
                 tar zxf "$NAME-$VERSION.tgz"
@@ -37,8 +56,14 @@ build_external_extension() {
         fi
 	cd "$NAME-$VERSION"
 	"$INSTALL_DIR/php/bin/phpize"
+	# specify custom ./configure arguments
 	if [ "$NAME" == "amqp" ]; then
 		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --with-librabbitmq-dir="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
+	elif [ "$NAME" == "memcached" ]; then
+		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" \
+			--with-libmemcached-dir="$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION" \
+			--enable-memcached-msgpack \
+			--enable-memcached-igbinary
 	else
 		./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
 	fi

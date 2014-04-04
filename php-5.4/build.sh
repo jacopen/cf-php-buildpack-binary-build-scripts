@@ -15,12 +15,17 @@ VERSION_POSTFIX=
 ZTS_VERSION=20100525
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.5.0"
+LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
 MODULES[APC]="3.1.9"
 MODULES[mongo]="1.4.5"
 MODULES[redis]="2.2.4"
 MODULES[xdebug]="2.2.4"
 MODULES[amqp]="1.2.0"
+MODULES[memcache]="2.2.7"
+MODULES[igbinary]="1.1.1"
+MODULES[msgpack]="0.5.5"
+MODULES[memcached]="2.2.0"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -109,6 +114,12 @@ package_php_extensions() {
 	package_php_extension "redis"
 	package_php_extension "xdebug"
 	package_php_extension "amqp" "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1"
+	package_php_extension "memcache"
+	package_php_extension "msgpack"
+	package_php_extension "igbinary"
+	package_php_extension "memcached" \
+		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
+		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
