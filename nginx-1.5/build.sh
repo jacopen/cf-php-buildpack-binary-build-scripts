@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-NGINX_VERSION=1.5.12
+NGINX_VERSION=1.5.13
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -20,7 +20,8 @@ set -e
 function build_nginx_15() {
 	cd "$BUILD_DIR"
 	if [ "n$NGINX_VERSION" == "n" ]; then
-		NGINX_VERSION=1.5.8
+		echo "No Nginx Version Specified!!"
+                exit -1
 	fi
 	if [ ! -d "nginx-$NGINX_VERSION" ]; then
 		curl -L -O "http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz"
@@ -43,7 +44,7 @@ function build_nginx_15() {
 		--without-http_scgi_module \
 		--with-pcre \
 		--with-pcre-jit
-	make -j 3
+	make -j 5
 	make install
 	cd "$BUILD_DIR"
 }
