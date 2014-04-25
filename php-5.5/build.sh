@@ -77,6 +77,7 @@ function build_php55() {
 		--with-ldap=shared \
 		--with-ldap-sasl \
 		--with-zlib=shared \
+		--with-snmp=shared \
 		--enable-mbstring \
 		--enable-mbregex \
 		--enable-exif \
@@ -107,6 +108,7 @@ package_php_extensions() {
 	package_php_extension "mcrypt" "libmcrypt.so.4"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
 	package_php_extension "zlib"
+	package_php_extension "snmp" "libnetsnmp.so.15"
 	# package third party extensions
 	package_php_extension "mongo"
 	package_php_extension "redis"
