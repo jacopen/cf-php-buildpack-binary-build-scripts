@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-APR_VERSION=1.5.0
+APR_VERSION=1.5.1
 APR_ICONV_VERSION=1.2.1
 APR_UTIL_VERSION=1.5.3
 HTTPD_VERSION=2.4.9
