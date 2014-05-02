@@ -10,17 +10,17 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.11
+PHP_VERSION=5.5.12
 VERSION_POSTFIX=
 ZTS_VERSION=20121212
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.5.0"
 LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
-MODULES[mongo]="1.4.5"
-MODULES[redis]="2.2.4"
-MODULES[xdebug]="2.2.3"
-MODULES[amqp]="1.2.0"
+MODULES[mongo]="1.5.1"
+MODULES[redis]="2.2.5"
+MODULES[xdebug]="2.2.5"
+MODULES[amqp]="1.4.0"
 MODULES[memcache]="2.2.7"
 MODULES[igbinary]="1.1.1"
 MODULES[msgpack]="0.5.5"
