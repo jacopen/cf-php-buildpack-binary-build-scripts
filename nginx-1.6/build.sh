@@ -59,7 +59,7 @@ fi
 
 # build required libs & httpd
 build_nginx_16
-bash
+
 # Remove unnecessary files and config
 cd "$INSTALL_DIR/nginx"
 rm -rf html/ conf/*
