@@ -28,6 +28,7 @@ MODULES[memcached]="2.2.0"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
+REPO_DIR=$(dirname $(dirname $BUILD_DIR))
 ##################################################################
 set -e
 
@@ -135,7 +136,7 @@ if [ ! -d "$BUILD_DIR" ]; then
 fi
 
 # include common functionality
-source "$BUILD_DIR/../../php-common/build.sh"
+source "$REPO_DIR/php-common/build.sh"
 
 # build and install php
 build_php55
