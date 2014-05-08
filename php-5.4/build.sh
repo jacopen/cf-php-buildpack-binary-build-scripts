@@ -157,11 +157,11 @@ package_php_cli
 package_php_pear
 package_php
 
-# Move packages to this directory
-cd "$BUILD_DIR/../"
-mkdir -p "php-$PHP_VERSION"
-mv /tmp/staged/app/php-*.gz "php-$PHP_VERSION"
-mv /tmp/staged/app/php-*.gz.sha1 "php-$PHP_VERSION"
+# Move packages to the output directory
+cd "$BUILD_DIR/../../"
+mkdir -p "output/php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz "output/php-$PHP_VERSION"
+mv /tmp/staged/app/php-*.gz.sha1 "output/php-$PHP_VERSION"
 
 # Rename with correct postfix
 rename_with_postfix
