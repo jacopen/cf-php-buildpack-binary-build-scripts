@@ -29,7 +29,7 @@ MODULES[memcached]="2.2.0"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
-REPO_DIR=$(dirname $(dirname $BUILD_DIR))
+REPO_DIR=$(dirname $BUILD_DIR)
 ##################################################################
 set -e
 
