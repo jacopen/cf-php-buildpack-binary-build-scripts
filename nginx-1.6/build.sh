@@ -59,7 +59,7 @@ fi
 
 # build required libs & httpd
 build_nginx_16
-bash
+
 # Remove unnecessary files and config
 cd "$INSTALL_DIR/nginx"
 rm -rf html/ conf/*
@@ -69,10 +69,10 @@ cd "$INSTALL_DIR"
 tar czf "nginx-$NGINX_VERSION.tar.gz" nginx
 shasum "nginx-$NGINX_VERSION.tar.gz" > "nginx-$NGINX_VERSION.tar.gz.sha1"
 
-# Move packages to this directory
-cd "$BUILD_DIR/../"
-mkdir -p "nginx-$NGINX_VERSION"
-mv /tmp/staged/app/nginx-*.gz "nginx-$NGINX_VERSION"
-mv /tmp/staged/app/nginx-*.gz.sha1 "nginx-$NGINX_VERSION"
+# Move packages to the output directory
+cd "$BUILD_DIR/../../"
+mkdir -p "output/nginx-$NGINX_VERSION"
+mv /tmp/staged/app/nginx-*.gz "output/nginx-$NGINX_VERSION"
+mv /tmp/staged/app/nginx-*.gz.sha1 "output/nginx-$NGINX_VERSION"
 
 echo "Done!"

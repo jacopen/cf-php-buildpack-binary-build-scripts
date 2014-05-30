@@ -153,7 +153,7 @@ package_php() {
 }
 
 rename_with_postfix() {
-	cd "$BUILD_DIR/../"
+	cd "$BUILD_DIR/../../output"
 	if [ "n$VERSION_POSTFIX" != "n" ]; then
 		echo "Renaming with version postfix [$VERSION_POSTFIX]"
 		mv "php-$PHP_VERSION" "php-$PHP_VERSION$VERSION_POSTFIX"
