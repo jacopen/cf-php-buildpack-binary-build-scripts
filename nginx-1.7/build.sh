@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-NGINX_VERSION=1.7.0
+NGINX_VERSION=1.7.1
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
