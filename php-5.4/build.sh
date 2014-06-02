@@ -68,6 +68,9 @@ function build_php54() {
 		--with-mysqli=mysqlnd \
 		--with-pdo-mysql=mysqlnd \
 		--with-gd=shared \
+		--with-jpeg-dir=/usr \
+		--with-freetype-dir=/usr \
+		--enable-gd-native-ttf \
 		--with-pdo-pgsql=shared \
 		--with-pgsql=shared \
 		--with-pspell=shared \
