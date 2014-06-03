@@ -22,6 +22,21 @@ build_librabbit() {
 	cd "$BUILD_DIR"
 }
 
+build_phpalcon() {
+	cd "$BUILD_DIR"
+	PHALCON_VERSION=$1
+	if [ ! -d "cphalcon-phalcon-v$PHALCON_VERSION" ]; then
+                curl -L -O "https://github.com/phalcon/cphalcon/archive/phalcon-v$PHALCON_VERSION.zip"
+                unzip -q "phalcon-v$PHALCON_VERSION.zip"
+                rm "phalcon-v$PHALCON_VERSION.zip"
+        fi
+	cd "cphalcon-phalcon-v$PHALCON_VERSION/build"
+	sed -i "s|./configure --enable-phalcon|./configure --with-php-config=\"$INSTALL_DIR/php/bin/php-config\" --enable-phalcon|g" install
+	sed -i "s|^phpize |$INSTALL_DIR/php/bin/phpize |g" install
+	./install
+	cd "$BUILD_DIR"
+}
+
 build_libmemcached() {
 	cd "$BUILD_DIR"
 	if [ ! -d "libmemcached-$LIBMEMCACHED_VERSION" ]; then
@@ -46,6 +61,10 @@ build_external_extension() {
 	fi
 	if [ "$NAME" == "memcached" ]; then
 		build_libmemcached
+	fi
+	if [ "$NAME" == "phalcon" ]; then
+		build_phpalcon $VERSION
+		return # has it's own build script, so we just run it and return
 	fi
 	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then

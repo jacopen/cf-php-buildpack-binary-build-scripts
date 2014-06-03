@@ -25,6 +25,7 @@ MODULES[memcache]="2.2.7"
 MODULES[igbinary]="1.1.1"
 MODULES[msgpack]="0.5.5"
 MODULES[memcached]="2.2.0"
+MODULES[phalcon]="1.3.1"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -123,6 +124,7 @@ package_php_extensions() {
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
+	package_php_extension "phalcon"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
