@@ -43,51 +43,53 @@ function build_php54() {
 		curl -L -o "php-$PHP_VERSION.tar.bz2" "http://us1.php.net/get/php-$PHP_VERSION.tar.bz2/from/us2.php.net/mirror"
 		tar jxf "php-$PHP_VERSION.tar.bz2"
 		rm "php-$PHP_VERSION.tar.bz2"
+		cd "php-$PHP_VERSION"
+		./configure \
+			--prefix="$INSTALL_DIR/php" \
+			--with-config-file-path=/home/vcap/app/php/etc \
+			--disable-static \
+			--enable-shared \
+			--enable-ftp \
+			--enable-sockets \
+			--enable-soap \
+			--enable-fileinfo \
+			--enable-bcmath \
+			--enable-calendar \
+			--with-kerberos \
+			--enable-zip \
+			--with-bz2=shared \
+			--with-curl=shared \
+			--enable-dba=shared \
+			--with-cdb \
+			--with-gdbm \
+			--with-mcrypt=shared \
+			--with-mhash=shared \
+			--with-mysql=mysqlnd \
+			--with-mysqli=mysqlnd \
+			--with-pdo-mysql=mysqlnd \
+			--with-gd=shared \
+			--with-jpeg-dir=/usr \
+			--with-freetype-dir=/usr \
+			--enable-gd-native-ttf \
+			--with-pdo-pgsql=shared \
+			--with-pgsql=shared \
+			--with-pspell=shared \
+			--with-gettext=shared \
+			--with-gmp=shared \
+			--with-imap=shared \
+			--with-imap-ssl=shared \
+			--with-ldap=shared \
+			--with-ldap-sasl \
+			--with-zlib=shared \
+			--with-snmp=shared \
+			--enable-mbstring \
+			--enable-mbregex \
+			--enable-exif \
+			--with-openssl=shared \
+			--enable-fpm
+	else
+		cd "php-$PHP_VERSION"
 	fi
-	cd "php-$PHP_VERSION"
-	./configure \
-		--prefix="$INSTALL_DIR/php" \
-		--with-config-file-path=/home/vcap/app/php/etc \
-		--disable-static \
-		--enable-shared \
-		--enable-ftp \
-		--enable-sockets \
-		--enable-soap \
-		--enable-fileinfo \
-		--enable-bcmath \
-		--enable-calendar \
-		--with-kerberos \
-		--enable-zip \
-		--with-bz2=shared \
-		--with-curl=shared \
-		--enable-dba=shared \
-		--with-cdb \
-		--with-gdbm \
-		--with-mcrypt=shared \
-		--with-mhash=shared \
-		--with-mysql=mysqlnd \
-		--with-mysqli=mysqlnd \
-		--with-pdo-mysql=mysqlnd \
-		--with-gd=shared \
-		--with-jpeg-dir=/usr \
-		--with-freetype-dir=/usr \
-		--enable-gd-native-ttf \
-		--with-pdo-pgsql=shared \
-		--with-pgsql=shared \
-		--with-pspell=shared \
-		--with-gettext=shared \
-		--with-gmp=shared \
-		--with-imap=shared \
-		--with-imap-ssl=shared \
-		--with-ldap=shared \
-		--with-ldap-sasl \
-		--with-zlib=shared \
-		--with-snmp=shared \
-		--enable-mbstring \
-		--enable-mbregex \
-		--enable-exif \
-		--with-openssl=shared \
-		--enable-fpm
 	# Fix path on phar.phar
 	sed 's|PHP_PHARCMD_BANG = `.*`|PHP_PHARCMD_BANG = /home/vcap/app/php/bin/php|' Makefile > Makefile.phar-fix
 	mv Makefile.phar-fix Makefile
