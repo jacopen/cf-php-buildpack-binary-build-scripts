@@ -17,15 +17,19 @@ ZTS_VERSION=20121212
 RABBITMQ_C_VERSION="0.5.0"
 LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
-MODULES[mongo]="1.5.2"
-MODULES[redis]="2.2.5"
-MODULES[xdebug]="2.2.5"
 MODULES[amqp]="1.4.0"
-MODULES[memcache]="2.2.7"
 MODULES[igbinary]="1.1.1"
-MODULES[msgpack]="0.5.5"
+MODULES[imagick]="3.1.2"
+MODULES[mailparse]="2.1.6"
+MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
+MODULES[mongo]="1.5.2"
+MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.1"
+MODULES[redis]="2.2.5"
+MODULES[sundown]="0.3.11"
+MODULES[xdebug]="2.2.5"
+MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -42,56 +46,58 @@ function build_php55() {
 		curl -L -o "php-$PHP_VERSION.tar.bz2" "http://us1.php.net/get/php-$PHP_VERSION.tar.bz2/from/us2.php.net/mirror"
 		tar jxf "php-$PHP_VERSION.tar.bz2"
 		rm "php-$PHP_VERSION.tar.bz2"
+		cd "php-$PHP_VERSION"
+		./configure \
+			--prefix="$INSTALL_DIR/php" \
+			--with-config-file-path=/home/vcap/app/php/etc \
+			--disable-static \
+			--enable-shared \
+			--enable-ftp \
+			--enable-sockets \
+			--enable-soap \
+			--enable-fileinfo \
+			--enable-bcmath \
+			--enable-calendar \
+			--with-kerberos \
+			--enable-zip \
+			--with-bz2=shared \
+			--with-curl=shared \
+			--enable-dba=shared \
+			--with-cdb \
+			--with-gdbm \
+			--with-mcrypt=shared \
+			--with-mhash=shared \
+			--with-mysql=mysqlnd \
+			--with-mysqli=mysqlnd \
+			--with-pdo-mysql=mysqlnd \
+			--with-gd=shared \
+			--with-jpeg-dir=/usr \
+			--with-freetype-dir=/usr \
+			--enable-gd-native-ttf \
+			--with-pdo-pgsql=shared \
+			--with-pgsql=shared \
+			--with-pspell=shared \
+			--with-gettext=shared \
+			--with-gmp=shared \
+			--with-imap=shared \
+			--with-imap-ssl=shared \
+			--with-ldap=shared \
+			--with-ldap-sasl \
+			--with-zlib=shared \
+			--with-snmp=shared \
+			--enable-mbstring \
+			--enable-mbregex \
+			--enable-exif \
+			--with-openssl=shared \
+			--enable-fpm
+	else
+		cd "php-$PHP_VERSION"
 	fi
-	cd "php-$PHP_VERSION"
-	./configure \
-		--prefix="$INSTALL_DIR/php" \
-		--with-config-file-path=/home/vcap/app/php/etc \
-		--disable-static \
-		--enable-shared \
-		--enable-ftp \
-		--enable-sockets \
-		--enable-soap \
-		--enable-fileinfo \
-		--enable-bcmath \
-		--enable-calendar \
-		--with-kerberos \
-		--enable-zip \
-		--with-bz2=shared \
-		--with-curl=shared \
-		--enable-dba=shared \
-		--with-cdb \
-		--with-gdbm \
-		--with-mcrypt=shared \
-		--with-mhash=shared \
-		--with-mysql=mysqlnd \
-		--with-mysqli=mysqlnd \
-		--with-pdo-mysql=mysqlnd \
-		--with-gd=shared \
-		--with-jpeg-dir=/usr \
-		--with-freetype-dir=/usr \
-		--enable-gd-native-ttf \
-		--with-pdo-pgsql=shared \
-		--with-pgsql=shared \
-		--with-pspell=shared \
-		--with-gettext=shared \
-		--with-gmp=shared \
-		--with-imap=shared \
-		--with-imap-ssl=shared \
-		--with-ldap=shared \
-		--with-ldap-sasl \
-		--with-zlib=shared \
-		--with-snmp=shared \
-		--enable-mbstring \
-		--enable-mbregex \
-		--enable-exif \
-		--with-openssl=shared \
-		--enable-fpm
 	# Fix path on phar.phar
 	sed 's|PHP_PHARCMD_BANG = `.*`|PHP_PHARCMD_BANG = /home/vcap/app/php/bin/php|' Makefile > Makefile.phar-fix
 	mv Makefile.phar-fix Makefile
 	# Build
-	make -j 3
+	make -j 5
 	make install
 	cd "$BUILD_DIR"
 }
@@ -121,10 +127,14 @@ package_php_extensions() {
 	package_php_extension "memcache"
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
+	package_php_extension "imagick"
+	package_php_extension "mailparse"
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
 	package_php_extension "phalcon"
+	package_php_extension "sundown"
+	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
