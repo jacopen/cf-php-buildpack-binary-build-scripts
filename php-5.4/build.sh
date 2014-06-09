@@ -17,16 +17,21 @@ ZTS_VERSION=20100525
 RABBITMQ_C_VERSION="0.5.0"
 LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
-MODULES[APC]="3.1.9"
-MODULES[mongo]="1.5.2"
-MODULES[redis]="2.2.5"
-MODULES[xdebug]="2.2.5"
 MODULES[amqp]="1.4.0"
-MODULES[memcache]="2.2.7"
+MODULES[APC]="3.1.9"
+MODULES[apcu]="4.0.4"
 MODULES[igbinary]="1.1.1"
-MODULES[msgpack]="0.5.5"
+MODULES[imagick]="3.1.2"
+MODULES[mailparse]="2.1.6"
+MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
+MODULES[mongo]="1.5.2"
+MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.1"
+MODULES[redis]="2.2.5"
+MODULES[sundown]="0.3.11"
+MODULES[xdebug]="2.2.5"
+MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -118,6 +123,7 @@ package_php_extensions() {
 	package_php_extension "snmp" "libnetsnmp.so.15"
 	# package third party extensions
 	package_php_extension "apc"
+	package_php_extension "apcu"
 	package_php_extension "mongo"
 	package_php_extension "redis"
 	package_php_extension "xdebug"
@@ -125,10 +131,14 @@ package_php_extensions() {
 	package_php_extension "memcache"
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
+	package_php_extension "imagick"
+	package_php_extension "mailparse"
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
 	package_php_extension "phalcon"
+	package_php_extension "sundown"
+	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
