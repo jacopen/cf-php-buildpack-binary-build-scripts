@@ -9,7 +9,6 @@ set -e
 
 # Get ROOT Directory
 ROOT=$(dirname $(dirname $(readlink -e $0)))
-echo $ROOT
 
 # Build Apache HTTPD 2.4
 cd "$ROOT/apache-httpd-2.4"
