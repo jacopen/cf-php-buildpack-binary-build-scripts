@@ -5,3 +5,4 @@ nginx-1.5/build
 nginx-1.6/build
 nginx-1.7/build
 output/*
+*.swp
