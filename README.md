@@ -11,7 +11,7 @@ The scripts are configured with variables at the top and can be used to build di
 #### Local
 
  1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
- 2. In a terminal in the OS, run `curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh | bash`.  
+ 2. In a terminal in the OS, run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh )`.  
 
 This will download and run the local install script, which handles everything else.  See the `run_local.sh` script below for more details.
 
@@ -19,9 +19,9 @@ This will download and run the local install script, which handles everything el
 
  1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
  2. Setup an SSH Server on the base OS.  Add your [ssh key] to the `.ssh/authorized_keys` file on the base OS.
- 3. Run `curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_remote.sh | bash -- [user]@<baseos-ip>`.
+ 3. Run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_remote.sh ) [user]@<baseos-ip>`.
 
-This will download and run the remote install script, which connects to the remote server and handles everything else.  Please note that step two is option, but you'll have a much better time if passwordless login is enabled on your remote machine.  
+This will download and run the remote install script, which connects to the remote server and handles everything else.  Please note that step two is optional, but you'll have a much better time if passwordless login is enabled on your remote machine.  
 
 See the `run_remote.sh` script below for details.
 
