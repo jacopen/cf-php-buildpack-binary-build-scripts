@@ -12,8 +12,18 @@
 set -e
 
 # Install git
-# TODO: make this work for other OS like CentOS
-sudo apt-get -y install git-core
+if ! hash git 2>/dev/null; then
+    echo "Git not installed on the local host.  Attempting to install..."
+    CAPTURE=$(cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n')
+    if [ "$CAPTURE" == "Ubuntu" ]; then
+        remote_run "sudo apt-get -y install git-core"
+    elif [ "$CAPTURE" == "CentOS" ]; then 
+        remote_run "sudo yum install git"
+    else
+        echo "Not sure about the remote OS, please manually install git."
+        exit -1
+    fi
+fi
 
 # clone repo
 if [ ! -d cf-php-buildpack-binary-build-scripts ]; then 
