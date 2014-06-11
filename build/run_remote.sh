@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Connect to a remote machine, build there and download output.
 #
@@ -22,25 +22,54 @@ if [ "$REMOTE_HOST" == "" ]; then
 fi
 
 # Get ROOT Directory
-ROOT=$(dirname $(dirname $(readlink -e $0)))
+if [[ "$0" == /* ]]; then
+    ROOT=$(dirname "$(dirname "$0")")
+else
+    ROOT=$(dirname $(dirname "$(pwd)/${0#./}"))
+fi
+echo "Root [$ROOT]"
+
+function remote_test {
+    ssh -q "$REMOTE_HOST" "$1"
+    return $?
+}
+
+function remote_run {
+    ssh -qt "$REMOTE_HOST" "$1"
+    return $?
+}
+
+function remote_capture {
+    CAPTURE=$(ssh -qt "$REMOTE_HOST" "$1")  # Returning "Ubuntu\n", not sure why
+    return $?
+}
 
 # Install git
-# TODO: make this work for other OS like CentOS
-
-ssh -t "$REMOTE_HOST" "sudo apt-get -y install git-core"
+if ! remote_test "hash git 2\>/dev/null"; then
+    echo "Git not installed on the remote host.  Attempting to install..."
+    remote_capture "cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n'"
+    if [ "$CAPTURE" == "Ubuntu" ]; then
+        remote_run "sudo apt-get -y install git-core"
+    elif [ "$CAPTURE" == "CentOS" ]; then 
+        remote_run "sudo yum install git"
+    else
+        echo "Not sure about the remote OS, please manually install git."
+        exit -1
+    fi
+fi
 
 # Clone or update the repo
-if ssh -q "$REMOTE_HOST" [ -d cf-php-buildpack-binary-build-scripts ]; then 
-    ssh "$REMOTE_HOST" "cd cf-php-buildpack-binary-build-scripts; git pull"
+if remote_test "[ -d cf-php-buildpack-binary-build-scripts ]"; then 
+    remote_run "cd cf-php-buildpack-binary-build-scripts; git pull"
 else
-    ssh "$REMOTE_HOST" "git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git"
+    remote_run "git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git"
 fi
 
 # Update / install dependencies
-ssh -t "$REMOTE_HOST" "cd cf-php-buildpack-binary-build-scripts; ./build/install-deps.sh"
+remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/install-deps.sh"
 
 # Run the build-all.sh script
-ssh "$REMOTE_HOST" "cd cf-php-buildpack-binary-build-scripts; ./build/build-all.sh"
+remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/build-all.sh"
 
 # Copy the binaries to the 
 scp -r "$REMOTE_HOST:./cf-php-buildpack-binary-build-scripts/output/*" "$ROOT/output/"
