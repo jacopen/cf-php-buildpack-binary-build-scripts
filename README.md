@@ -6,6 +6,25 @@ This repo contains a set of bash scripts that can be used to build HTTPD 2.4.x, 
 
 The scripts are configured with variables at the top and can be used to build different versions of each project and modules for the projects.  The scripts were originally designed to be run on Ubuntu 10.04, which is the current stack used by CF.  It has been expanded to support Ubuntu 12.04 and will soon support Ubuntu 14.04 as well.
 
+### Usage
+
+#### Local
+
+ 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
+ 2. In a terminal in the OS, run `curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh | bash`.  
+
+This will download and run the local install script, which handles everything else.  See the `run_local.sh` script below for more details.
+
+#### Remote
+
+ 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
+ 2. Setup an SSH Server on the base OS.  Add your [ssh key] to the `.ssh/authorized_keys` file on the base OS.
+ 3. Run `curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_remote.sh | bash -- [user]@<baseos-ip>`.
+
+This will download and run the remote install script, which connects to the remote server and handles everything else.  Please note that step two is option, but you'll have a much better time if passwordless login is enabled on your remote machine.  
+
+See the `run_remote.sh` script below for details.
+
 ### Scripts
 
 Here's a listing of the scripts and what they do.
@@ -28,3 +47,4 @@ Each component, the project subdirectories with a name and major version number,
 Generally you should run the `run_local.sh` or `run_remote.sh` script to build the full suite of components, but you can run the individual `<component-version>/build.sh` script if you want to build just a single component.
 
 [CF PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
+[ssh key]:https://www.debian.org/devel/passwordlessssh
