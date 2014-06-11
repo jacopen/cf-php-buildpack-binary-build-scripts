@@ -13,6 +13,7 @@
 #   ./run_remote.sh [user@]hostname
 #
 set -e
+echo "Program Name: [$0]"
 
 REMOTE_HOST=$1
 if [ "$REMOTE_HOST" == "" ]; then
@@ -33,8 +34,11 @@ fi
 echo "Local working directory [$ROOT]"
 
 function remote_test {
+    echo "Testing [$1] on [$REMOTE_HOST]"
     ssh -q "$REMOTE_HOST" "$1"
-    return $?
+    RET=$?
+    echo "Return Code [$RET]"
+    return $RET
 }
 
 function remote_run {
