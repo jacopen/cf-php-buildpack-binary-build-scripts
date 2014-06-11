@@ -12,8 +12,7 @@
 # Usage:
 #   ./run_remote.sh [user@]hostname
 #
-set -e
-echo "Program Name: [$0]"
+#set -e
 
 REMOTE_HOST=$1
 if [ "$REMOTE_HOST" == "" ]; then
@@ -24,21 +23,20 @@ fi
 echo "Using Remote Host [$REMOTE_HOST]"
 
 # Get ROOT Directory
-if [[ "$0" == /* ]]; then
-    ROOT=$(dirname "$(dirname "$0")")
+if [[ "$0" == /dev/stdin ]]; then
+    ROOT=$(pwd)
 elif [[ "$0" == *bash* ]]; then
     ROOT=$(pwd)
+elif [[ "$0" == /* ]]; then
+    ROOT=$(dirname "$(dirname "$0")")
 else
     ROOT=$(dirname $(dirname "$(pwd)/${0#./}"))
 fi
 echo "Local working directory [$ROOT]"
 
 function remote_test {
-    echo "Testing [$1] on [$REMOTE_HOST]"
     ssh -q "$REMOTE_HOST" "$1"
-    RET=$?
-    echo "Return Code [$RET]"
-    return $RET
+    return $?
 }
 
 function remote_run {
