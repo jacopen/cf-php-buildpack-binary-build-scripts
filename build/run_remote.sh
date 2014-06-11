@@ -14,7 +14,7 @@
 #
 #set -e
 
-REMOTE_HOST=$1
+REMOTE_HOST=${1:-$REMOTE_HOST}
 if [ "$REMOTE_HOST" == "" ]; then
     echo "Usage:"
     echo "  run_remote.sh <host/ip>"
