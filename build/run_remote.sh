@@ -24,6 +24,8 @@ fi
 # Get ROOT Directory
 if [[ "$0" == /* ]]; then
     ROOT=$(dirname "$(dirname "$0")")
+elif [[ "$0" == *bash* ]]; then
+    ROOT=$(pwd)
 else
     ROOT=$(dirname $(dirname "$(pwd)/${0#./}"))
 fi
@@ -74,4 +76,5 @@ remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/install-deps.sh"
 remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/build-all.sh"
 
 # Copy the binaries to the 
+mkdir -p "$ROOT/output"
 scp -r "$REMOTE_HOST:./cf-php-buildpack-binary-build-scripts/output" "$ROOT"
