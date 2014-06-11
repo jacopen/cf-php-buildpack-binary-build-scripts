@@ -23,7 +23,7 @@ fi
 echo "Using Remote Host [$REMOTE_HOST]"
 
 # Get ROOT Directory
-if [[ "$0" == /dev/stdin ]]; then
+if [[ "$0" == /dev/* ]]; then
     ROOT=$(pwd)
 elif [[ "$0" == *bash* ]]; then
     ROOT=$(pwd)
