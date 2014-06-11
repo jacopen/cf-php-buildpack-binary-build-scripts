@@ -27,7 +27,6 @@ if [[ "$0" == /* ]]; then
 else
     ROOT=$(dirname $(dirname "$(pwd)/${0#./}"))
 fi
-echo "Root [$ROOT]"
 
 function remote_test {
     ssh -q "$REMOTE_HOST" "$1"
@@ -44,7 +43,10 @@ function remote_capture {
     return $?
 }
 
+# TODO: Install ssh key into access file?
+
 # Install git
+# TODO: move into common file (used by both remote_* scripts)
 if ! remote_test "hash git 2\>/dev/null"; then
     echo "Git not installed on the remote host.  Attempting to install..."
     remote_capture "cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n'"
