@@ -97,7 +97,11 @@ package_php_extension() {
 				cp $FILE php/lib
 				FILE=`basename $FILE`
 			else
-				cp "/usr/lib/$FILE" php/lib/
+                if [ -f "/usr/lib/$FILE" ]; then
+                    cp "/usr/lib/$FILE" php/lib/
+                else
+                    cp "/usr/lib/x86_64-linux-gnu/$FILE" php/lib/
+                fi
 			fi
 			tar rf "php-$NAME-$PHP_VERSION.tar" "php/lib/$FILE"
 		done
