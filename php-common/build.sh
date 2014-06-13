@@ -41,24 +41,6 @@ build_phpalcon() {
 	cd "$BUILD_DIR"
 }
 
-build_libmemcached() {
-	cd "$BUILD_DIR"
-	if [ ! -d "libmemcached-$LIBMEMCACHED_VERSION" ]; then
-		curl -L -O "https://launchpad.net/libmemcached/1.0/$LIBMEMCACHED_VERSION/+download/libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
-                tar zxf "libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
-                rm "libmemcached-$LIBMEMCACHED_VERSION.tar.gz"
-		cd "libmemcached-$LIBMEMCACHED_VERSION"
-		./configure --prefix="$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION"
-		make -j 5
-	else
-		cd "libmemcached-$LIBMEMCACHED_VERSION"
-	fi
-	if [ ! -d "$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION" ]; then
-		make install
-	fi
-	cd "$BUILD_DIR"
-}
-
 build_external_extension() {
 	cd "$BUILD_DIR"
 	NAME=$1
@@ -66,9 +48,6 @@ build_external_extension() {
 	# Build required libraries
 	if [ "$NAME" == "amqp" ]; then
 		build_librabbit
-	fi
-	if [ "$NAME" == "memcached" ]; then
-		build_libmemcached
 	fi
 	if [ "$NAME" == "phalcon" ]; then
 		build_phpalcon $VERSION
@@ -87,7 +66,6 @@ build_external_extension() {
 			./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --with-librabbitmq-dir="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
 		elif [ "$NAME" == "memcached" ]; then
 			./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" \
-				--with-libmemcached-dir="$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION" \
 				--enable-memcached-msgpack \
 				--enable-memcached-igbinary \
 				--enable-memcached-json

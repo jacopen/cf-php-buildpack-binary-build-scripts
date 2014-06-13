@@ -15,7 +15,6 @@ VERSION_POSTFIX=
 ZTS_VERSION=20100525
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.5.0"
-LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[APC]="3.1.9"
@@ -116,11 +115,11 @@ package_php_extensions() {
 	package_php_extension "openssl"
 	package_php_extension "pdo_pgsql"
 	package_php_extension "pgsql"
-	package_php_extension "imap" "libc-client.so.2007e"
-	package_php_extension "mcrypt" "libmcrypt.so.4"
-	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
+	package_php_extension "imap" "libc-client.so"
+	package_php_extension "mcrypt" "libmcrypt.so"
+	package_php_extension "pspell" "libaspell.so" "libpspell.so"
 	package_php_extension "zlib"
-	package_php_extension "snmp" "libnetsnmp.so.15"
+	package_php_extension "snmp" "libnetsnmp.so"
 	# package third party extensions
 	package_php_extension "apc"
 	package_php_extension "apcu"
@@ -133,9 +132,7 @@ package_php_extensions() {
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
 	package_php_extension "mailparse"
-	package_php_extension "memcached" \
-		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
-		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
+	package_php_extension "memcached" "libmemcached.so" "libmemcachedutil.so"
 	package_php_extension "phalcon"
 	package_php_extension "sundown"
 	package_php_extension "zip"
