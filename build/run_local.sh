@@ -27,7 +27,8 @@ fi
 
 # clone repo
 if [ ! -d cf-php-buildpack-binary-build-scripts ]; then 
-    git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git 
+    git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git
+    cd cf-php-buildpack-binary-build-scripts
 else
     cd cf-php-buildpack-binary-build-scripts
     git pull
