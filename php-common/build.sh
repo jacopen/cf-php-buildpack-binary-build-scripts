@@ -66,6 +66,7 @@ build_external_extension() {
 			./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --with-librabbitmq-dir="$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION"
 		elif [ "$NAME" == "memcached" ]; then
 			./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" \
+                --disable-memcached-sasl \
 				--enable-memcached-msgpack \
 				--enable-memcached-igbinary \
 				--enable-memcached-json
