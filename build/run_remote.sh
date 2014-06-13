@@ -12,7 +12,7 @@
 # Usage:
 #   ./run_remote.sh [user@]hostname
 #
-#set -e
+set -e
 
 REMOTE_HOST=${1:-$REMOTE_HOST}
 if [ "$REMOTE_HOST" == "" ]; then
