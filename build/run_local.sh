@@ -11,6 +11,10 @@
 #
 set -e
 
+# Detect OS & Version
+OS=$(cat /etc/issue | cut -d ' ' -f 1)
+VERSION=$(cat /etc/issue | cut -d ' ' -f 2)
+
 # Install git
 if ! hash git 2>/dev/null; then
     echo "Git not installed on the local host.  Attempting to install..."
@@ -33,6 +37,7 @@ else
     cd cf-php-buildpack-binary-build-scripts
     git pull
 fi
+git checkout "$OS-$VERSION"
 
 # update / install dependencies
 ./build/install-deps.sh

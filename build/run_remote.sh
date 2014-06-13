@@ -77,6 +77,13 @@ if remote_test "[ -d cf-php-buildpack-binary-build-scripts ]"; then
 else
     remote_run "git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git"
 fi
+
+# Check out the right branch
+remote_capture "cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n'"
+OS=$CAPTURE
+remote_capture "cat /etc/issue | cut -d ' ' -f 2 | tr -d '\n'"
+VERSION=$CAPTURE
+run_remote "git checkout \"$OS-$VERSION\""
 echo "OK."
 
 # Update / install dependencies
