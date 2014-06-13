@@ -39,6 +39,12 @@ else
 fi
 git checkout "$OS-$VERSION"
 
+# create /home/vcap/logs
+#  This path is used at runtime, but is also required by some of the packages 
+#  to exist at compile time.
+#  It's not actually used, other than to satisfy that requirement.
+sudo mkdir -p /home/vcap/logs
+
 # update / install dependencies
 ./build/install-deps.sh
 
