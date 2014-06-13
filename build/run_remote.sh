@@ -83,7 +83,7 @@ remote_capture "cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n'"
 OS=$CAPTURE
 remote_capture "cat /etc/issue | cut -d ' ' -f 2 | tr -d '\n'"
 VERSION=$CAPTURE
-run_remote "git checkout \"$OS-$VERSION\""
+remote_run "git checkout \"$OS-$VERSION\""
 echo "OK."
 
 # create /home/vcap/logs
