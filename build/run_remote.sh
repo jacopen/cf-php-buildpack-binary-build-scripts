@@ -79,6 +79,12 @@ else
 fi
 echo "OK."
 
+# create /home/vcap/logs
+#  This path is used at runtime, but is also required by some of the packages 
+#  to exist at compile time.
+#  It's not actually used, other than to satisfy that requirement.
+remote_run "sudo mkdir -p /home/vcap/logs"
+
 # Update / install dependencies
 remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/install-deps.sh"
 
