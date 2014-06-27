@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.4.29
+PHP_VERSION=5.4.30
 VERSION_POSTFIX=
 ZTS_VERSION=20100525
 # Third Party Module Versions
@@ -19,15 +19,15 @@ LIBMEMCACHED_VERSION="1.0.18"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[APC]="3.1.9"
-MODULES[apcu]="4.0.4"
+MODULES[apcu]="4.0.6"
 MODULES[igbinary]="1.1.1"
 MODULES[imagick]="3.1.2"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.2"
+MODULES[mongo]="1.5.4"
 MODULES[msgpack]="0.5.5"
-MODULES[phalcon]="1.3.1"
+MODULES[phalcon]="1.3.2"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[xdebug]="2.2.5"
