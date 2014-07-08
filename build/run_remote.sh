@@ -112,5 +112,5 @@ fi
 mkdir -p "$ROOT/output/$OS-$VERSION"
 scp -r "$REMOTE_HOST:./cf-php-buildpack-binary-build-scripts/output" "$ROOT/output/$OS-$VERSION"
 remote_run "rm -rf ./cf-php-buildpack-binary-build-scripts/output"
-mv output/Ubuntu-10.04/output/* output/Ubuntu-10.04
-rmdir output/Ubuntu-10.04/output/
+mv output/$OS-$VERSION/output/* output/$OS-$VERSION
+rmdir output/$OS-$VERSION/output/
