@@ -37,6 +37,9 @@ else
     cd cf-php-buildpack-binary-build-scripts
     git pull
 fi
+
+# check out right branch
+VERSION=`echo $VERSION | cut -d '.' -f 1,2`
 git checkout "$OS-$VERSION"
 
 # create /home/vcap/logs
