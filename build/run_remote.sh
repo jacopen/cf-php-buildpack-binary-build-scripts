@@ -10,14 +10,14 @@
 # Author: Daniel Mikusa <dmikusa@gopivotal.com>
 #
 # Usage:
-#   ./run_remote.sh [user@]hostname
+#   ./run_remote.sh [user@]hostname [package]
 #
 set -e
 
 REMOTE_HOST=${1:-$REMOTE_HOST}
 if [ "$REMOTE_HOST" == "" ]; then
     echo "Usage:"
-    echo "  run_remote.sh <host/ip>"
+    echo "  run_remote.sh <host/ip> [package]"
     exit -1
 fi
 echo "Using Remote Host [$REMOTE_HOST]"
@@ -95,8 +95,18 @@ remote_run "sudo mkdir -p /home/vcap/logs"
 # Update / install dependencies
 remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/install-deps.sh"
 
-# Run the build-all.sh script
-remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/build-all.sh"
+# Build the component requested or all of them
+if [ "$2" == "" ]; then
+    echo "Building all components."
+    remote_run "cd cf-php-buildpack-binary-build-scripts; ./build/build-all.sh"
+else
+    if remote_test "[ -f cf-php-buildpack-binary-build-scripts/$2/build.sh ]"; then
+        echo "Building component [$2]."
+        remote_run "cd cf-php-buildpack-binary-build-scripts/$2; ./build.sh"
+    else
+        echo "Could not find component specified [$2]. Skipping."
+    fi
+fi
 
 # Copy the binaries to the 
 mkdir -p "$ROOT/output"

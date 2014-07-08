@@ -48,5 +48,16 @@ sudo mkdir -p /home/vcap/logs
 # update / install dependencies
 ./build/install-deps.sh
 
-# build all
-./build/build-all.sh
+# Build the component requested or all of them
+if [ "$1" == "" ]; then
+    echo "Building all components."
+    ./build/build-all.sh
+else
+    if [ -f cf-php-buildpack-binary-build-scripts/$1/build.sh ]; then
+        echo "Building component [$1]."
+        cd cf-php-buildpack-binary-build-scripts/$1
+        ./build.sh
+    else
+        echo "Could not find component specified [$1]. Skipping."
+    fi
+fi
