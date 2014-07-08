@@ -111,3 +111,4 @@ fi
 # Copy the binaries to the 
 mkdir -p "$ROOT/output"
 scp -r "$REMOTE_HOST:./cf-php-buildpack-binary-build-scripts/output" "$ROOT"
+remote_run "rm -rf ./cf-php-buildpack-binary-build-scripts/output"
