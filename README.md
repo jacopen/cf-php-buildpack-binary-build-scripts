@@ -38,6 +38,7 @@ This is the main directory for the scripts, and contains the following scripts.
 |  run_local.sh    | Runs the full build suite locally.  This will install git, clone or update the repository, install and update all required dependencies and run all of the build scripts. |
 |  run_remote.sh   | Runs the full build suite on a local host.  This will install git, clone or update the repository, install and update all required dependencies, run all of the build script and copy the build files from the remote server to your local machine. |
 |  build-all.sh    | Builds all of the local packages.  This calls the individual build scripts in each of the component directories.  This script is called by `run_local.sh` and `run_remote.sh`. |
+|  upload.sh       | Upload binaries to DropBox. |
 
 #### Component Build Scripts
 
@@ -47,5 +48,13 @@ The OS & Version specific branches contain the individual scripts which compile 
 
 Generally you should run the `run_local.sh` or `run_remote.sh` script to build the full suite of components, but you can run the individual `<component-version>/build.sh` script if you want to build just a single component.
 
+#### Upload Script
+
+If hosting files on DropBox, this script can be used to walk the `output` directory (i.e. where built files are downloaded) and automatically upload files to DropBox.
+
+This script relies on the [Dropbox-Uploader] to handle the work of actually uploading files to DropBox.  To use the upload script, you must first run the `./dropbox/dropbox_uploader.sh` script.  The first time it's run, it will walk you through setting up your DropBox account to allow it to connect and upload files.  This creates a config file with your DropBox API credentials and OAuth token info.  It's stored in `~/.dropbox_uploader`.
+
+
 [CF PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
 [ssh key]:https://www.debian.org/devel/passwordlessssh
+[Dropbox-Uploader]:https://github.com/andreafabrizi/Dropbox-Uploader
