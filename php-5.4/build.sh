@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.4.30
+PHP_VERSION=5.4.31
 VERSION_POSTFIX=
 ZTS_VERSION=20100525
 # Third Party Module Versions
