@@ -133,7 +133,7 @@ package_php_extensions() {
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
-    package_php_extensino "intl" "libicui18n.so.42" "libicuuc.so.42" "libicudata.so.42" "libicuio.so.42"
+    package_php_extensino "intl" "libicui18n.so.52" "libicuuc.so.52" "libicudata.so.52" "libicuio.so.52"
 	package_php_extension "mailparse"
 	package_php_extension "memcached" "libmemcached.so" "libmemcachedutil.so"
 	package_php_extension "phalcon"
