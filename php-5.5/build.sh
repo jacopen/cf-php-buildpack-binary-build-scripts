@@ -120,6 +120,7 @@ package_php_extensions() {
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
 	package_php_extension "zlib"
 	package_php_extension "snmp" "libnetsnmp.so.15"
+    package_php_extension "opcache"
 	# package third party extensions
 	package_php_extension "mongo"
 	package_php_extension "redis"
