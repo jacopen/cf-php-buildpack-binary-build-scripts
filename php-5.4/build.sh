@@ -134,7 +134,7 @@ package_php_extensions() {
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
-    package_php_extension "intl" "libicui18n.so"
+    package_php_extension "intl" "libicui18n.so" "libicuuc.so" "libicudata.so" "libicuio.so"
 	package_php_extension "mailparse"
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
