@@ -112,6 +112,7 @@ package_php_extensions() {
 	package_php_extension "gettext"
 	package_php_extension "gmp"
 	package_php_extension "ldap"
+    package_php_extension "opcache"
 	package_php_extension "openssl"
 	package_php_extension "pdo_pgsql"
 	package_php_extension "pgsql"
@@ -129,7 +130,7 @@ package_php_extensions() {
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
-    package_php_extension "intl"
+    package_php_extension "intl" "libicui18n.so.42" "libicuuc.so.42" "libicudata.so.42" "libicuio.so.42"
 	package_php_extension "mailparse"
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
