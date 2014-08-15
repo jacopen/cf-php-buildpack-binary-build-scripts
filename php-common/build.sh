@@ -104,6 +104,7 @@ build_external_extension() {
 
 build_external_extensions() {
 	for MODULE in "${!MODULES[@]}"; do
+        echo "----------------------  Building [$MODULE] ---------------------------"
 		build_external_extension "$MODULE"
 	done
 }

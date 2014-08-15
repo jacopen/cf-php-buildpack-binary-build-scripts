@@ -20,6 +20,7 @@ declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[igbinary]="1.1.1"
 MODULES[imagick]="3.1.2"
+MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
@@ -128,6 +129,7 @@ package_php_extensions() {
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
+    package_php_extension "intl"
 	package_php_extension "mailparse"
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
