@@ -8,22 +8,13 @@ The scripts are configured with variables at the top and can be used to build di
 
 ### Usage
 
-#### Local
+ 1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
+ 2. Install [VirtualBox](https://www.virtualbox.org/) on your local machine.
+ 3. Clone this repository.
+ 4. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
+ 5. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
 
- 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
- 2. In a terminal in the OS, run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh )`.  
-
-This will download and run the local install script, which handles everything else.  See the `run_local.sh` script below for more details.
-
-#### Remote
-
- 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
- 2. Setup an SSH Server on the base OS.  Add your [ssh key] to the `.ssh/authorized_keys` file on the base OS.
- 3. Run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_remote.sh ) [user]@<baseos-ip>`.
-
-This will download and run the remote install script, which connects to the remote server and handles everything else.  Please note that step two is optional, but you'll have a much better time if passwordless login is enabled on your remote machine.  
-
-See the `run_remote.sh` script below for details.
+This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
 
 ### Scripts
 
@@ -35,18 +26,17 @@ This is the main directory for the scripts, and contains the following scripts.
 
 |   Script Name   |   Explanation                                                 |
 | --------------- | --------------------------------------------------------------|
-|  run_local.sh    | Runs the full build suite locally.  This will install git, clone or update the repository, install and update all required dependencies and run all of the build scripts. |
-|  run_remote.sh   | Runs the full build suite on a local host.  This will install git, clone or update the repository, install and update all required dependencies, run all of the build script and copy the build files from the remote server to your local machine. |
-|  build-all.sh    | Builds all of the local packages.  This calls the individual build scripts in each of the component directories.  This script is called by `run_local.sh` and `run_remote.sh`. |
+|  run_local.sh    | Runs the full build suite.  This will install git, clone or update the repository, install and update all required dependencies and run all of the build scripts. |
+|  build-all.sh    | Builds all of the local packages.  This calls the individual build scripts in each of the component directories.  This script is called by `run_local.sh`. |
 |  upload.sh       | Upload binaries to DropBox. |
 
 #### Component Build Scripts
 
-Each supported OS & Version combination has it's own branch.  These are largely similar, but each combination has it's own differences.  When you run the `run_local.sh` or `run_remote.sh` script, your OS and Version are determined by looking at `/etc/issue` and the correct branch is checked out.
+Each supported OS & Version combination has it's own branch.  These are largely similar, but each combination has it's own differences.  When you run the `run_local.sh` script, your OS and Version are determined by looking at `/etc/issue` and the correct branch is checked out.
 
 The OS & Version specific branches contain the individual scripts which compile the various components.  These are stored in project subdirectories with a name and major version number and contain the build script.  The build script is responsible for building that individual component.  Most of the time this boils down to running `./configure && make && make install`, but some components are more complicated than that.  Regardless, this script is responsible for building and packaging the component.
 
-Generally you should run the `run_local.sh` or `run_remote.sh` script to build the full suite of components, but you can run the individual `<component-version>/build.sh` script if you want to build just a single component.
+Generally you should run the `run_local.sh` script to build the full suite of components, but you can run the individual `<component-version>/build.sh` script if you want to build just a single component.
 
 #### Upload Script
 
