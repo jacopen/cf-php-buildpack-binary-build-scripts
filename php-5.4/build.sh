@@ -32,7 +32,7 @@ MODULES[phalcon]="1.3.2"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[xdebug]="2.2.5"
-MODULES[ZendOpcache]="7.0.3"
+MODULES[zendopcache]="7.0.3"
 MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
@@ -141,7 +141,7 @@ package_php_extensions() {
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
 	package_php_extension "phalcon"
 	package_php_extension "sundown"
-    package_php_extension "ZendOpcache"
+    package_php_extension "opcache"  # ZendOpcache
 	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
