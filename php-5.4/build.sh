@@ -21,6 +21,7 @@ MODULES[APC]="3.1.9"
 MODULES[apcu]="4.0.6"
 MODULES[igbinary]="1.1.1"
 MODULES[imagick]="3.1.2"
+MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
@@ -30,6 +31,7 @@ MODULES[phalcon]="1.3.2"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[xdebug]="2.2.5"
+MODULES[zendopcache]="7.0.3"
 MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
@@ -131,10 +133,12 @@ package_php_extensions() {
 	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
+    package_php_extensino "intl"
 	package_php_extension "mailparse"
 	package_php_extension "memcached" "libmemcached.so" "libmemcachedutil.so"
 	package_php_extension "phalcon"
 	package_php_extension "sundown"
+    package_php_extension "opcache"  # ZendOpcache
 	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
