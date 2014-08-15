@@ -16,6 +16,7 @@ ZTS_VERSION=20121212
 # Third Party Module Versions
 RABBITMQ_C_VERSION="0.5.0"
 LIBMEMCACHED_VERSION="1.0.18"
+HIREDIS_VERSION="0.11.0"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[igbinary]="1.1.1"
@@ -26,6 +27,7 @@ MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
 MODULES[mongo]="1.5.4"
 MODULES[msgpack]="0.5.5"
+MODULES[phpiredis]="trunk"
 MODULES[phalcon]="1.3.2"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
@@ -135,6 +137,7 @@ package_php_extensions() {
 	package_php_extension "memcached" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcached.so.11" \
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
+    package_php_extension "phpiredis"
 	package_php_extension "phalcon"
 	package_php_extension "sundown"
 	package_php_extension "zip"
