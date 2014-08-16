@@ -33,6 +33,7 @@ MODULES[phpiredis]="trunk"
 MODULES[phalcon]="1.3.2"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
+MODULES[twig]="1.16.0"
 MODULES[xdebug]="2.2.5"
 MODULES[zendopcache]="7.0.3"
 MODULES[zip]="1.12.4"
@@ -144,6 +145,7 @@ package_php_extensions() {
     package_php_extension "phpiredis"
 	package_php_extension "phalcon"
 	package_php_extension "sundown"
+    package_php_extension "twig"
     package_php_extension "opcache"  # ZendOpcache
 	package_php_extension "zip"
 	# remove packaged files

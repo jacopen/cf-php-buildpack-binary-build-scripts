@@ -76,6 +76,22 @@ build_phpalcon() {
 	cd "$BUILD_DIR"
 }
 
+build_twig() {
+       cd "$BUILD_DIR"
+       TWIG_VERSION=$1
+       if [ ! -d "twig-$TWIG_VERSION" ]; then
+               curl -L -O "https://github.com/fabpot/Twig/archive/v$TWIG_VERSION.tar.gz"
+               tar zxf "v$TWIG_VERSION.tar.gz"
+               rm "v$TWIG_VERSION.tar.gz"
+       fi
+       cd "Twig-$TWIG_VERSION/ext/twig"
+       "$INSTALL_DIR/php/bin/phpize"
+       ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
+       make -j 5
+       make install
+       cd "$BUILD_DIR"
+}
+
 build_libmemcached() {
 	cd "$BUILD_DIR"
 	if [ ! -d "libmemcached-$LIBMEMCACHED_VERSION" ]; then
@@ -114,6 +130,10 @@ build_external_extension() {
 		build_phpiredis
 		return # not part of PECL
 	fi
+    if [ "$NAME" == "twig" ]; then
+        build_twig $VERSION
+        return # not part of PECL
+    fi
 	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then
                 curl -L -O "http://pecl.php.net/get/$NAME-$VERSION.tgz"
