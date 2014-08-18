@@ -28,8 +28,11 @@ MODULES[memcached]="2.2.0"
 MODULES[mongo]="1.5.4"
 MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.2"
+MODULES[phpiredis="trunk"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
+MODULES[twig]="1.16.0"
+MODULES[xcache]="3.1.0"
 MODULES[xdebug]="2.2.5"
 MODULES[zendopcache]="7.0.3"
 MODULES[zip]="1.12.4"
@@ -55,10 +58,10 @@ function build_php54() {
 			--with-config-file-path=/home/vcap/app/php/etc \
 			--disable-static \
 			--enable-shared \
-			--enable-ftp \
-			--enable-sockets \
-			--enable-soap \
-			--enable-fileinfo \
+			--enable-ftp=shared \
+			--enable-sockets=shared \
+			--enable-soap=shared \
+			--enable-fileinfo=shared \
 			--enable-bcmath \
 			--enable-calendar \
 			--with-kerberos \
@@ -70,9 +73,11 @@ function build_php54() {
 			--with-gdbm \
 			--with-mcrypt=shared \
 			--with-mhash=shared \
-			--with-mysql=mysqlnd \
-			--with-mysqli=mysqlnd \
-			--with-pdo-mysql=mysqlnd \
+			--with-mysql=shared \
+			--with-mysqli=shared \
+            --enable-pdo=shared \
+            --with-pdo-sqlite=shared \
+			--with-pdo-mysql=shared,mysqlnd \
 			--with-gd=shared \
 			--with-jpeg-dir=/usr \
 			--with-freetype-dir=/usr \
@@ -88,9 +93,9 @@ function build_php54() {
 			--with-ldap-sasl \
 			--with-zlib=shared \
 			--with-snmp=shared \
-			--enable-mbstring \
+			--enable-mbstring=shared \
 			--enable-mbregex \
-			--enable-exif \
+			--enable-exif=shared \
 			--with-openssl=shared \
 			--enable-fpm
 	else
@@ -110,35 +115,47 @@ package_php_extensions() {
 	package_php_extension "bz2"
 	package_php_extension "curl"
 	package_php_extension "dba"
+    package_php_extension "exif"
+    package_php_extension "fileinfo"
+    package_php_extension "ftp"
 	package_php_extension "gd"
 	package_php_extension "gettext"
 	package_php_extension "gmp"
-	package_php_extension "ldap"
-	package_php_extension "openssl"
-	package_php_extension "pdo_pgsql"
-	package_php_extension "pgsql"
 	package_php_extension "imap" "libc-client.so"
+	package_php_extension "ldap"
+    package_php_extension "mbstring"
 	package_php_extension "mcrypt" "libmcrypt.so"
+    package_php_extension "mysqli"
+    package_php_extension "mysql"
+	package_php_extension "openssl"
+    package_php_extension "pdo_mysql"
+	package_php_extension "pdo_pgsql"
+    package_php_extension "pdo"
+    package_php_extension "pdo_sqlite"
+	package_php_extension "pgsql"
 	package_php_extension "pspell" "libaspell.so" "libpspell.so"
-	package_php_extension "zlib"
 	package_php_extension "snmp" "libnetsnmp.so"
+	package_php_extension "zlib"
 	# package third party extensions
+	package_php_extension "amqp" "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1"
 	package_php_extension "apc"
 	package_php_extension "apcu"
-	package_php_extension "mongo"
-	package_php_extension "redis"
-	package_php_extension "xdebug"
-	package_php_extension "amqp" "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1"
-	package_php_extension "memcache"
-	package_php_extension "msgpack"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
     package_php_extension "intl" "libicui18n.so.52" "libicuuc.so.52" "libicudata.so.52" "libicuio.so.52"
 	package_php_extension "mailparse"
+	package_php_extension "memcache"
 	package_php_extension "memcached" "libmemcached.so" "libmemcachedutil.so"
-	package_php_extension "phalcon"
-	package_php_extension "sundown"
+	package_php_extension "mongo"
+	package_php_extension "msgpack"
     package_php_extension "opcache"  # ZendOpcache
+	package_php_extension "phalcon"
+    package_php_extension "phpiredis"
+	package_php_extension "redis"
+	package_php_extension "sundown"
+    package_php_extension "twig"
+    package_php_extension "xcache"
+	package_php_extension "xdebug"
 	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*

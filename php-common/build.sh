@@ -26,6 +26,40 @@ build_librabbit() {
 	cd "$BUILD_DIR"
 }
 
+build_hiredis() {
+    echo "----------------------  Building [hiredis] ---------------------------"
+	cd "$BUILD_DIR"
+	if [ ! -d "hiredis-$HIREDIS_VERSION" ]; then
+		curl -L -O "https://github.com/redis/hiredis/archive/v$HIREDIS_VERSION.tar.gz"
+		tar zxf "v$HIREDIS_VERSION.tar.gz"
+		rm "v$HIREDIS_VERSION.tar.gz"
+		cd "hiredis-$HIREDIS_VERSION"
+		make -j 5
+	else
+		cd "hiredis-$HIREDIS_VERSION"
+	fi
+	if [ ! -d "$INSTALL_DIR/hiredis-$HIREDIS_VERSION" ]; then
+		PREFIX="$INSTALL_DIR/hiredis-$HIREDIS_VERSION" make install
+	fi
+	cd "$BUILD_DIR"
+}
+
+build_phpiredis() {
+	cd "$BUILD_DIR"
+	if [ ! -d "phpiredis" ]; then
+		git clone https://github.com/nrk/phpiredis.git
+		cd phpiredis
+	else
+		cd phpiredis
+		git pull
+	fi
+	"$INSTALL_DIR/php/bin/phpize"
+	./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --enable-phpiredis --with-hiredis-dir="$INSTALL_DIR/hiredis-$HIREDIS_VERSION"
+	make -j 5
+	make install
+	cd "$BUILD_DIR"
+}
+
 build_phpalcon() {
 	cd "$BUILD_DIR"
 	PHALCON_VERSION=$1
@@ -41,6 +75,38 @@ build_phpalcon() {
 	cd "$BUILD_DIR"
 }
 
+build_twig() {
+       cd "$BUILD_DIR"
+       TWIG_VERSION=$1
+       if [ ! -d "Twig-$TWIG_VERSION" ]; then
+               curl -L -O "https://github.com/fabpot/Twig/archive/v$TWIG_VERSION.tar.gz"
+               tar zxf "v$TWIG_VERSION.tar.gz"
+               rm "v$TWIG_VERSION.tar.gz"
+       fi
+       cd "Twig-$TWIG_VERSION/ext/twig"
+       "$INSTALL_DIR/php/bin/phpize"
+       ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
+       make -j 5
+       make install
+       cd "$BUILD_DIR"
+}
+
+build_xcache() {
+       cd "$BUILD_DIR"
+       XCACHE_VERSION=$1
+       if [ ! -d "xcache-$XCACHE_VERSION" ]; then
+               curl -L -O "http://xcache.lighttpd.net/pub/Releases/$XCACHE_VERSION/xcache-$XCACHE_VERSION.tar.gz"
+               tar zxf "xcache-$XCACHE_VERSION.tar.gz"
+               rm "xcache-$XCACHE_VERSION.tar.gz"
+       fi
+       cd "xcache-$XCACHE_VERSION/"
+       "$INSTALL_DIR/php/bin/phpize"
+       ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --enable-xcache
+       make -j 5
+       make install
+       cd "$BUILD_DIR"
+}
+
 build_external_extension() {
 	cd "$BUILD_DIR"
 	NAME=$1
@@ -52,6 +118,19 @@ build_external_extension() {
 	if [ "$NAME" == "phalcon" ]; then
 		build_phpalcon $VERSION
 		return # has it's own build script, so we just run it and return
+	fi
+    if [ "$NAME" == "phpiredis" ]; then
+		build_hiredis
+		build_phpiredis
+		return # not part of PECL
+	fi
+    if [ "$NAME" == "twig" ]; then
+        build_twig $VERSION
+        return # not part of PECL
+    fi
+	if [ "$NAME" == "xcache" ]; then
+		build_xcache $VERSION
+		return # not part of PECL
 	fi
 	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then
