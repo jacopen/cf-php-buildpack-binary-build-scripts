@@ -35,7 +35,6 @@ MODULES[twig]="1.16.0"
 MODULES[xcache]="3.1.0"
 MODULES[xdebug]="2.2.5"
 MODULES[zendopcache]="7.0.3"
-MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -65,7 +64,7 @@ function build_php54() {
 			--enable-bcmath \
 			--enable-calendar \
 			--with-kerberos \
-			--enable-zip \
+			--enable-zip=shared \
 			--with-bz2=shared \
 			--with-curl=shared \
 			--enable-dba=shared \
