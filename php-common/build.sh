@@ -79,7 +79,7 @@ build_phpalcon() {
 build_twig() {
        cd "$BUILD_DIR"
        TWIG_VERSION=$1
-       if [ ! -d "twig-$TWIG_VERSION" ]; then
+       if [ ! -d "Twig-$TWIG_VERSION" ]; then
                curl -L -O "https://github.com/fabpot/Twig/archive/v$TWIG_VERSION.tar.gz"
                tar zxf "v$TWIG_VERSION.tar.gz"
                rm "v$TWIG_VERSION.tar.gz"
@@ -87,6 +87,22 @@ build_twig() {
        cd "Twig-$TWIG_VERSION/ext/twig"
        "$INSTALL_DIR/php/bin/phpize"
        ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
+       make -j 5
+       make install
+       cd "$BUILD_DIR"
+}
+
+build_xcache() {
+       cd "$BUILD_DIR"
+       XCACHE_VERSION=$1
+       if [ ! -d "xcache-$XCACHE_VERSION" ]; then
+               curl -L -O "http://xcache.lighttpd.net/pub/Releases/$XCACHE_VERSION/xcache-$XCACHE_VERSION.tar.gz"
+               tar zxf "xcache-$XCACHE_VERSION.tar.gz"
+               rm "xcache-$XCACHE_VERSION.tar.gz"
+       fi
+       cd "xcache-$XCACHE_VERSION/"
+       "$INSTALL_DIR/php/bin/phpize"
+       ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" --enable-xcache
        make -j 5
        make install
        cd "$BUILD_DIR"
@@ -134,6 +150,10 @@ build_external_extension() {
         build_twig $VERSION
         return # not part of PECL
     fi
+	if [ "$NAME" == "xcache" ]; then
+		build_xcache $VERSION
+		return # not part of PECL
+	fi
 	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then
                 curl -L -O "http://pecl.php.net/get/$NAME-$VERSION.tgz"
