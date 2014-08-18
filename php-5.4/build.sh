@@ -154,7 +154,7 @@ package_php_extensions() {
 	package_php_extension "mongo"
 	package_php_extension "msgpack"
 	package_php_extension "opcache"  # ZendOpcache
-	package_php_extension "phpiredis"
+	package_php_extension "phpiredis" "$INSTALL_DIR/hiredis-$HIREDIS_VERSION/lib/libhiredis.so.0.10"
 	package_php_extension "phalcon"
 	package_php_extension "redis"
 	package_php_extension "sundown"
