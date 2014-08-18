@@ -74,7 +74,7 @@ function build_php55() {
 			--with-mysql=shared \
 			--with-mysqli=shared \
 			--enable-pdo=shared \
-			--with-pdo-sqlite=shared \
+			--with-pdo-sqlite=shared,/usr \
 			--with-pdo-mysql=shared,mysqlnd \
 			--with-gd=shared \
 			--with-jpeg-dir=/usr \
