@@ -33,7 +33,6 @@ MODULES[sundown]="0.3.11"
 MODULES[twig]="1.16.0"
 MODULES[xcache]="3.1.0"
 MODULES[xdebug]="2.2.5"
-MODULES[zip]="1.12.4"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
 BUILD_DIR=`pwd`/build
@@ -63,7 +62,7 @@ function build_php55() {
 			--enable-bcmath \
 			--enable-calendar \
 			--with-kerberos \
-			--enable-zip \
+			--enable-zip=shared \
 			--with-bz2=shared \
 			--with-curl=shared \
 			--enable-dba=shared \
