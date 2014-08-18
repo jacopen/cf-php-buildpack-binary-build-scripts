@@ -135,7 +135,7 @@ package_php_extensions() {
 	package_php_extension "pdo_sqlite"
 	package_php_extension "pgsql"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
-	package_php_extension "snmp" "libnetsnmp.so.15"
+    package_php_extension_snmp
 	package_php_extension "soap"
 	package_php_extension "sockets"
 	package_php_extension "zlib"
