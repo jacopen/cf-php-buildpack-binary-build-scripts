@@ -30,6 +30,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       virtualbox.name = "Ubuntu 10.04 Lucid - CF PHP Buildpack Binary Builder (vagrant)"
     end
 
+    # FUSION
+    lucid.vm.provider "vmware_fusion" do |fusion|
+      fusion.vm.box = "box-cutter/ubuntu1004"
+    end
+
     # DIGITAL OCEAN
     lucid.vm.provider "digital_ocean" do |digitalocean, override|
       digitalocean.image  = 'Ubuntu 10.04 x64'
@@ -49,6 +54,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       virtualbox.name = "Ubuntu 12.04 Precise - CF PHP Buildpack Binary Builder (vagrant)"
     end
 
+    # FUSION
+    precise.vm.provider "vmware_fusion" do |fusion|
+      fusion.vm.box = "box-cutter/ubuntu1204"
+    end
+
     # DIGITAL OCEAN
     precise.vm.provider "digital_ocean" do |digitalocean, override|
       digitalocean.image  = 'Ubuntu 12.04.5 x64'
@@ -66,6 +76,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     trusty.vm.provider "virtualbox" do |virtualbox|
       trusty.vm.box   = "box-cutter/ubuntu1404"
       virtualbox.name = "Ubuntu 14.04 Trusty - CF PHP Buildpack Binary Builder (vagrant)"
+    end
+
+    # FUSION
+    trusty.vm.provider "vmware_fusion" do |fusion|
+      fusion.vm.box = "box-cutter/ubuntu1404"
     end
 
     # DIGITAL OCEAN
@@ -92,5 +107,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "virtualbox" do |virtualbox, override|
       virtualbox.cpus = 4
+  end
+
+#######################################################################################
+######################### FUSION GLOBAL CONFIG ########################################
+
+  config.vm.provider "vmware_fusion" do |fusion, override|
+    fusion.vmx["numvcpus"] = "2"
   end
 end

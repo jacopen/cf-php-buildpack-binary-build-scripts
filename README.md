@@ -10,26 +10,37 @@ This is a set of scripts that can be used to build the binary files required by 
 The scripts are configured with variables at the top and can be used to build different versions of each project and modules for the projects.  The scripts were originally designed to be run on Ubuntu 10.04, which is the current stack used by CF.  It has been expanded to support Ubuntu 12.04 and Ubuntu 14.04 as well.  Different OS & Version combinations are supported through different branches of the repository.
 
 The builds are performed inside virtual machines managed by Vagrant. You can run the builds on your local machine using
-VirtualBox, or remotely on DigitalOcean.
+VirtualBox or VMware Fusion, or remotely on DigitalOcean.
 
 ### Usage (VirtualBox)
 
  1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
- 2. Install [VirtualBox](https://www.virtualbox.org/) on your local machine.
- 3. Clone this repository.
- 4. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
- 5. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
+ 1. Install [VirtualBox](https://www.virtualbox.org/) on your local machine.
+ 1. Clone this repository.
+ 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
+ 1. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
+
+This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
+
+### Usage (VMware Fusion)
+
+ 1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
+ 1. Install [VMware Fusion](http://www.vmware.com/products/fusion/) on your local machine.
+ 1. Install the [VMware provider for Vagrant](http://www.vagrantup.com/vmware) by following [these instructions](http://docs.vagrantup.com/v2/vmware/installation.html).
+ 1. Clone this repository.
+ 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up --provider=vmware_fusion`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
+ 1. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
 
 This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
 
 ### Usage (DigitalOcean)
 
  1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
- 1. Install the [Digital Ocean Vagrant Provider](https://github.com/smdahlen/vagrant-digitalocean): `vagrant plugin install vagrant-digitalocean`
+ 1. Install the [Digital Ocean provider for Vagrant](https://github.com/smdahlen/vagrant-digitalocean): `vagrant plugin install vagrant-digitalocean`
  1. Clone this repository.
  1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`).
  1. Edit `Vagrantfile` to configure your private key path (`override.ssh.private_key_path`) and add your Digital Ocean API token. This is described in detail on the [Digital Ocean Vagrant Provider page](https://github.com/smdahlen/vagrant-digitalocean)
- 1. Run `vagrant up lucid --provider="digital_ocean"`. This will create a new Digital Ocean droplet for use by Vagrant. You can use the same command with `precise` or `trusty`.
+ 1. Run `vagrant up lucid --provider=digital_ocean`. This will create a new Digital Ocean droplet for use by Vagrant. You can use the same command with `precise` or `trusty`.
  1. Run `vagrant ssh -c /vagrant/build/run_local.sh lucid` to start the build.
  1. When the build is finished, run `scp -r root@<digitaloceandropletip> /vagrant/output/` and the `output` folder will contain all the build artifacts.
  1. Run `vagrant destory` to destroy the Digital Ocean droplets and stop charges.
