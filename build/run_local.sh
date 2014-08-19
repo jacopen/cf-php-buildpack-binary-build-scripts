@@ -45,6 +45,10 @@ cd 'output'
 
 # clone repo
 if [ ! -d $OUTPUT_DIR ]; then
+    # Git fails to verify the SSL connection when run on Lucid
+    if [[ $OS == "Ubuntu" && $VERSION == "10.04.4" ]];then
+      git config --global http.sslVerify false
+    fi
     git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git $OUTPUT_DIR
     cd $OUTPUT_DIR
 else
