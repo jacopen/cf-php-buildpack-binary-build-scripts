@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # VIRTUALBOX
     lucid.vm.provider "virtualbox" do |virtualbox|
-      lucid.vm.box    = "f500/ubuntu-lucid64"
+      lucid.vm.box    = "box-cutter/ubuntu1004"
       virtualbox.name = "Ubuntu 10.04 Lucid - CF PHP Buildpack Binary Builder (vagrant)"
     end
 
@@ -45,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # VIRTUALBOX
     precise.vm.provider "virtualbox" do |virtualbox|
-      precise.vm.box  = "ubuntu/precise64"
+      precise.vm.box  = "box-cutter/ubuntu1204"
       virtualbox.name = "Ubuntu 12.04 Precise - CF PHP Buildpack Binary Builder (vagrant)"
     end
 
@@ -64,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # VIRTUALBOX
     trusty.vm.provider "virtualbox" do |virtualbox|
-      trusty.vm.box   = "ubuntu/trusty64"
+      trusty.vm.box   = "box-cutter/ubuntu1404"
       virtualbox.name = "Ubuntu 14.04 Trusty - CF PHP Buildpack Binary Builder (vagrant)"
     end
 
