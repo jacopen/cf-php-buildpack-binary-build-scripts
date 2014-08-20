@@ -10,11 +10,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ######################### UBUNTU 12.04 precise ########################################
 
   config.vm.define "precise" do |precise|
-    fusion.vm.box = "box-cutter/ubuntu1204"
+    config.vm.box = "box-cutter/ubuntu1004"
+    config.vm.synced_folder '../../', '/vagrant'
 
     # VIRTUALBOX
     precise.vm.provider "virtualbox" do |virtualbox|
-      precise.vm.box    = "box-cutter/ubuntu1204"
       virtualbox.name = "Ubuntu 12.04 precise - CF PHP Buildpack Binary Builder (vagrant)"
     end
 

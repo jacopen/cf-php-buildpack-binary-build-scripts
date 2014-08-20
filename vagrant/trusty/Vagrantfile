@@ -10,11 +10,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ######################### UBUNTU 14.04 trusty #########################################
 
   config.vm.define "trusty" do |trusty|
-    fusion.vm.box = "box-cutter/ubuntu1404"
+    config.vm.box = "box-cutter/ubuntu1004"
+    config.vm.synced_folder '../../', '/vagrant'
 
     # VIRTUALBOX
     trusty.vm.provider "virtualbox" do |virtualbox|
-      trusty.vm.box    = "box-cutter/ubuntu1404"
       virtualbox.name = "Ubuntu 14.04 trusty - CF PHP Buildpack Binary Builder (vagrant)"
     end
 

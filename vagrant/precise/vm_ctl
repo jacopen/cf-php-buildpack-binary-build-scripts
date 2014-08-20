@@ -1,0 +1,2 @@
+#!/bin/bash
+VAGRANT_CWD=`dirname $0` vagrant $1
