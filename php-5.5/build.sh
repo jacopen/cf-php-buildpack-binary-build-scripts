@@ -14,7 +14,8 @@ PHP_VERSION=5.5.15
 VERSION_POSTFIX=
 ZTS_VERSION=20121212
 # Third Party Module Versions
-RABBITMQ_C_VERSION="0.5.0"
+RABBITMQ_C_VERSION="0.5.1"
+HIREDIS_VERSION="0.11.0"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[igbinary]="1.1.1"
@@ -72,7 +73,7 @@ function build_php55() {
 			--with-mysql=shared \
 			--with-mysqli=shared \
             --enable-pdo=shared \
-            --with-pdo-sqlite=shared \
+            --with-pdo-sqlite=shared,/usr \
 			--with-pdo-mysql=shared,mysqlnd \
 			--with-gd=shared \
 			--with-jpeg-dir=/usr \
@@ -131,7 +132,7 @@ package_php_extensions() {
     package_php_extension "pdo_sqlite"
 	package_php_extension "pgsql"
 	package_php_extension "pspell" "libaspell.so" "libpspell.so"
-	package_php_extension "snmp" "libnetsnmp.so"
+    package_php_extension_snmp
     package_php_extension "soap"
     package_php_extension "sockets"
 	package_php_extension "zlib"
@@ -146,7 +147,7 @@ package_php_extensions() {
 	package_php_extension "mongo"
 	package_php_extension "msgpack"
 	package_php_extension "phalcon"
-    package_php_extension "phpiredis"
+    package_php_extension "phpiredis" "$INSTALL_DIR/hiredis-$HIREDIS_VERSION/lib/libhiredis.so.0.10"
 	package_php_extension "redis"
 	package_php_extension "sundown"
     package_php_extension "twig"
