@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+#######################################################################################
+######################### UBUNTU 14.04 trusty #########################################
+
+  config.vm.define "trusty" do |trusty|
+    fusion.vm.box = "box-cutter/ubuntu1404"
+
+    # VIRTUALBOX
+    trusty.vm.provider "virtualbox" do |virtualbox|
+      trusty.vm.box    = "box-cutter/ubuntu1404"
+      virtualbox.name = "Ubuntu 14.04 trusty - CF PHP Buildpack Binary Builder (vagrant)"
+    end
+
+    # DIGITAL OCEAN
+    trusty.vm.provider "digital_ocean" do |digitalocean, override|
+      digitalocean.image  = 'Ubuntu 14.04 x64'
+      trusty.vm.hostname = 'ubuntu-14.04-cf-php-buildpack-binary-builder'
+    end
+  end
+
+#######################################################################################
+######################### DIGITAL OCEAN GLOBAL CONFIG #################################
+
+  config.vm.provider "digital_ocean" do |digitalocean, override|
+    override.vm.box     = 'digital_ocean'
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+
+    digitalocean.region = 'nyc2'
+    digitalocean.size   = '1GB'
+    
+    override.ssh.private_key_path = ENV.fetch("SSH_PRIVATE_KEY_PATH", '~/.ssh/id_rsa')
+    digitalocean.token            = ENV.fetch("DO_API_TOKEN", 'YOUR API TOKEN')
+  end
+
+#######################################################################################
+######################### VIRTUALBOX GLOBAL CONFIG ####################################
+
+  config.vm.provider "virtualbox" do |virtualbox, override|
+      virtualbox.cpus = ENV.fetch("VM_CORES", 4).to_i
+  end
+
+#######################################################################################
+######################### FUSION GLOBAL CONFIG ########################################
+
+  config.vm.provider "vmware_fusion" do |fusion, override|
+    fusion.vmx["numvcpus"] = ENV.fetch("VM_CORES", 4).to_i
+  end
+
+end
