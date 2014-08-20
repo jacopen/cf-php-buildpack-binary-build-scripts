@@ -61,6 +61,7 @@ else
         echo "Building component [$1]."
         cd ./$1
         ./build.sh
+        cd ../
     else
         echo "Could not find component specified [$1]. Skipping."
     fi
@@ -69,5 +70,5 @@ fi
 # If using vagrant, move output to shared directory
 if [ -d /vagrant ]; then
     mkdir -p "/vagrant/output/$OS-$VERSION"
-    mv output/* "/vagrant/output/$OS-$VERSION/"
+    cp -R output/* "/vagrant/output/$OS-$VERSION/"
 fi
