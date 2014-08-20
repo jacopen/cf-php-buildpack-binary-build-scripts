@@ -31,7 +31,7 @@ MODULES[phpiredis]="trunk"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[twig]="1.16.0"
-MODULES[xcache="3.1.0"
+MODULES[xcache]="3.1.0"
 MODULES[xdebug]="2.2.5"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
