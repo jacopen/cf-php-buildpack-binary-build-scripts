@@ -52,6 +52,11 @@ sudo mkdir -p /home/vcap/logs
 # update / install dependencies
 ./build/install-deps.sh
 
+# Clear output directory, gives us a fresh set of files
+if [ -d output ]; then
+    rm -rf output/*
+fi
+
 # Build the component requested or all of them
 if [ "$1" == "" ]; then
     echo "Building all components."
