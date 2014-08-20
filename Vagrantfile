@@ -113,6 +113,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ######################### FUSION GLOBAL CONFIG ########################################
 
   config.vm.provider "vmware_fusion" do |fusion, override|
-    fusion.vmx["numvcpus"] = "2"
+    fusion.vmx["numvcpus"] = 4
   end
 end
