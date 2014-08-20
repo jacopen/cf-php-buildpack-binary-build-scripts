@@ -14,45 +14,27 @@ set -e
 # Detect OS & Version
 OS=$(cat /etc/issue | cut -d ' ' -f 1)
 VERSION=$(cat /etc/issue | cut -d ' ' -f 2)
-OUTPUT_DIR="$OS-$VERSION"
 
-# Install git and curl
-if (! hash git 2>/dev/null ) || ( ! hash curl 2>/dev/null ); then
-    echo "Git or curl not installed on the local host.  Attempting to install..."
+# Install git
+if ! hash git 2>/dev/null; then
+    echo "Git not installed on the local host.  Attempting to install..."
     CAPTURE=$(cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n')
     if [ "$CAPTURE" == "Ubuntu" ]; then
-        sudo apt-get update
-        sudo apt-get -y install git-core curl
-    elif [ "$CAPTURE" == "CentOS" ]; then
-        sudo yum install git curl
+        remote_run "sudo apt-get -y install git-core"
+    elif [ "$CAPTURE" == "CentOS" ]; then 
+        remote_run "sudo yum install git"
     else
-        echo "Not sure about the remote OS, please manually install git and curl."
+        echo "Not sure about the remote OS, please manually install git."
         exit -1
     fi
 fi
 
-if [ ! -d '/vagrant' ]; then
-
-    echo "Missing /vagrant directory."
-    exit 1
-fi
-
-cd '/vagrant';
-if [ ! -d 'output' ]; then
-    mkdir 'output'
-fi
-cd 'output'
-
 # clone repo
-if [ ! -d $OUTPUT_DIR ]; then
-    # Git fails to verify the SSL connection when run on Lucid
-    if [[ $OS == "Ubuntu" && $VERSION == "10.04.4" ]];then
-      git config --global http.sslVerify false
-    fi
-    git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git $OUTPUT_DIR
-    cd $OUTPUT_DIR
+if [ ! -d cf-php-buildpack-binary-build-scripts ]; then 
+    git clone https://github.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts.git
+    cd cf-php-buildpack-binary-build-scripts
 else
-    cd $OUTPUT_DIR
+    cd cf-php-buildpack-binary-build-scripts
     git pull
 fi
 
