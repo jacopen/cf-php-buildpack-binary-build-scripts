@@ -77,7 +77,7 @@ function build_php54() {
 			--with-mysql=shared \
 			--with-mysqli=shared \
             --enable-pdo=shared \
-            --with-pdo-sqlite=shared \
+            --with-pdo-sqlite=shared,/usr \
 			--with-pdo-mysql=shared,mysqlnd \
 			--with-gd=shared \
 			--with-jpeg-dir=/usr \
@@ -135,7 +135,7 @@ package_php_extensions() {
     package_php_extension "pdo_sqlite"
 	package_php_extension "pgsql"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
-	package_php_extension "snmp" "libnetsnmp.so.15"
+    package_php_extension_snmp
     package_php_extension "soap"
     package_php_extension "sockets"
 	package_php_extension "zlib"
@@ -155,7 +155,7 @@ package_php_extensions() {
 	package_php_extension "msgpack"
     package_php_extension "opcache"  # ZendOpCache
 	package_php_extension "phalcon"
-    package_php_extension "phpiredis"
+    package_php_extension "phpiredis" "$INSTALL_DIR/hiredis-$HIREDIS_VERSION/lib/libhiredis.so.0.10"
 	package_php_extension "redis"
 	package_php_extension "sundown"
     package_php_extension "twig"
