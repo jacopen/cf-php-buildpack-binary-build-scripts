@@ -98,6 +98,7 @@ function build_php54() {
 			--enable-exif=shared \
 			--with-openssl=shared \
 			--enable-fpm
+        sed -i '/^EXTRA_LIBS =/ s/$/ -lz/' Makefile
 	else
 		cd "php-$PHP_VERSION"
 	fi
