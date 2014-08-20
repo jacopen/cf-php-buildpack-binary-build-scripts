@@ -214,9 +214,10 @@ package_php_extension_snmp() {
        tar cf "php-$NAME-$PHP_VERSION.tar" "php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/$NAME.so"
        cp "/usr/lib/libnetsnmp.so.15" php/lib/
        tar rf "php-$NAME-$PHP_VERSION.tar" "php/lib/libnetsnmp.so.15"
-       mkdir -p php/mibs
-       cp /usr/share/snmp/mibs/* php/mibs
-       tar rf "php-$NAME-$PHP_VERSION.tar" "php/mibs"
+       # TODO: not sure where to get the mibs from on precise
+       #mkdir -p php/mibs
+       #cp /usr/share/snmp/mibs/* php/mibs
+       #tar rf "php-$NAME-$PHP_VERSION.tar" "php/mibs"
        gzip -f -9 "php-$NAME-$PHP_VERSION.tar"
        shasum "php-$NAME-$PHP_VERSION.tar.gz" > "php-$NAME-$PHP_VERSION.tar.gz.sha1"
        cd "$INSTALL_DIR"
