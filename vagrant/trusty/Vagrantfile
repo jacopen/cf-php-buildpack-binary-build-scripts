@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ######################### UBUNTU 14.04 trusty #########################################
 
   config.vm.define "trusty" do |trusty|
-    config.vm.box = "box-cutter/ubuntu1004"
+    config.vm.box = "box-cutter/ubuntu1404"
     config.vm.synced_folder '../../', '/vagrant'
 
     # VIRTUALBOX

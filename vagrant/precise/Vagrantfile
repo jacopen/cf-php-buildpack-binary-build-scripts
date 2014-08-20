@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ######################### UBUNTU 12.04 precise ########################################
 
   config.vm.define "precise" do |precise|
-    config.vm.box = "box-cutter/ubuntu1004"
+    config.vm.box = "box-cutter/ubuntu1204"
     config.vm.synced_folder '../../', '/vagrant'
 
     # VIRTUALBOX
