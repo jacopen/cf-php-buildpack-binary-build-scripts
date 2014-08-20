@@ -12,28 +12,19 @@ The scripts are configured with variables at the top and can be used to build di
 The builds are performed inside virtual machines managed by Vagrant. You can run the builds on your local machine using
 VirtualBox or VMware Fusion, or remotely on DigitalOcean.
 
-### Usage (VirtualBox)
+### Usage
+
+#### VirtualBox / VMware Fusion
 
  1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
- 1. Install [VirtualBox](https://www.virtualbox.org/) on your local machine.
+ 1. Install [VirtualBox](https://www.virtualbox.org/) or [VMware Fusion](http://www.vmware.com/products/fusion) on your local machine.
+ 1. If using VMware Fusion, also install the [Vagrant provider](https://www.vagrantup.com/vmware) for it.
  1. Clone this repository.
- 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
- 1. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
+ 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `./build/run_vagrant.sh all`. This will cycle through three Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty.  On each machine, it will build the binaries and copy them to a sub-folder of the `output` directory.  When complete the packages will all reside there.
 
-This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
+To see what happens on each vm, refer to the `run_local.sh` script below.
 
-### Usage (VMware Fusion)
-
- 1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
- 1. Install [VMware Fusion](http://www.vmware.com/products/fusion/) on your local machine.
- 1. Install the [VMware provider for Vagrant](http://www.vagrantup.com/vmware) by following [these instructions](http://docs.vagrantup.com/v2/vmware/installation.html).
- 1. Clone this repository.
- 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `vagrant up --provider=vmware_fusion`. This will download and boot 3 Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty
- 1. Run `vagrant ssh lucid -c /vagrant/build/run_local.sh` to start the build. Instead of `lucid` you may use the same command with `precise` or `trusty`.
-
-This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
-
-### Usage (DigitalOcean)
+#### DigitalOcean
 
  1. Install [Vagrant](http://www.vagrantup.com/) on your local machine.
  1. Install the [Digital Ocean provider for Vagrant](https://github.com/smdahlen/vagrant-digitalocean): `vagrant plugin install vagrant-digitalocean`
@@ -47,6 +38,19 @@ This will run the build script, which handles everything else.  See the `run_loc
 
 This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
 
+#### Local Machine
+
+ 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
+ 2. In a terminal in the OS, run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh )`.  
+
+This will download and run the local install script, which handles everything else.  See the `run_local.sh` script below for more details.
+
+#### Remote Machine
+
+ 1. Install the base OS.  Currently Ubuntu 10.04, 12.04 or 14.04.
+ 2. Setup an SSH Server on the base OS.  Add your [ssh key] to the `.ssh/authorized_keys` file on the base OS.
+ 3. Run `bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_remote.sh ) [user]@<baseos-ip>`.
+
 ### Scripts
 
 Here's a listing of the scripts and what they do.
@@ -57,7 +61,9 @@ This is the main directory for the scripts, and contains the following scripts.
 
 |   Script Name   |   Explanation                                                 |
 | --------------- | --------------------------------------------------------------|
-|  run_local.sh    | Runs the full build suite.  This will install git, clone or update the repository, install and update all required dependencies and run all of the build scripts. |
+|  run_local.sh    | Runs the full build suite locally.  This will install git, clone or update the repository, install and update all required dependencies and run all of the build scripts. |
+|  run_remote.sh   | Runs the full build suite on a local host.  This will install git, clone or update the repository, install and update all required dependencies, run all of the build script and copy the build files from the remote server to your local machine. |
+|  run_vagrant.sh  | Runs the full build suite on a Vagrant run VM.  This functions the same as `run_local.sh`, but it will also handle starting the VMs for you. |
 |  build-all.sh    | Builds all of the local packages.  This calls the individual build scripts in each of the component directories.  This script is called by `run_local.sh`. |
 |  upload.sh       | Upload binaries to DropBox. |
 
