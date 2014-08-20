@@ -5,6 +5,9 @@
 #   - runs `run_local.sh` on that vm
 #   - stops the vm
 #
+# Usage:
+#   ./run_vagrant.sh all|<vm-name> [package]
+#
 # Script takes as an argument either `all` or the name of the vm
 #  to run.  Specifying `all` runs the build for all of the vms.
 #  Specifying an individual name runs the build for just that vm.
@@ -16,9 +19,14 @@ set -e
 
 function run_build() {
     VM=$1
+    PKG=$2
     echo "Running build for [$(basename $VM)]"
     "$VM/vm_ctl" up
-    "$VM/vm_ctl" ssh -c 'cd $HOME; /vagrant/build/run_local.sh'
+    if [ "$PKG" == "" ]; then
+        "$VM/vm_ctl" ssh -c 'cd $HOME; /vagrant/build/run_local.sh'
+    else
+        "$VM/vm_ctl" ssh -c "cd \$HOME; /vagrant/build/run_local.sh $PKG"
+    fi
     "$VM/vm_ctl" suspend
 }
 
@@ -36,8 +44,8 @@ echo "Local working directory [$ROOT]"
 
 if [ "$1" == "all" ]; then
     for VM in "$ROOT/vagrant/"*; do
-        run_build "$VM"    
+        run_build "$VM" "$2"
     done
 else
-    run_build "$ROOT/vagrant/$1"
+    run_build "$ROOT/vagrant/$1" "$2"
 fi
