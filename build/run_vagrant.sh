@@ -38,7 +38,7 @@ function scp_helper() {
     VERSION=$(./vagrant/lucid/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 2 | cut -d '.' -f 1,2)
     mkdir -p "./output/$OS-$VERSION"
     echo "Downloading build files to [./output/$OS-$VERSION]..."
-    scp -r -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* "./output/$OS-$VERSION"
+    scp -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* "./output/$OS-$VERSION"
 }
 
 function run_build_local() {
