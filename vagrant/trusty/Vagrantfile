@@ -8,20 +8,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 #######################################################################################
 ######################### UBUNTU 14.04 trusty #########################################
+  config.vm.box = "box-cutter/ubuntu1404"
+  config.vm.synced_folder '../../', '/vagrant'
 
   config.vm.define "trusty" do |trusty|
-    config.vm.box = "box-cutter/ubuntu1404"
-    config.vm.synced_folder '../../', '/vagrant'
+    trusty.vm.hostname = 'ubuntu-14.04-cf-php-buildpack-binary-builder'
 
     # VIRTUALBOX
     trusty.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "Ubuntu 14.04 trusty - CF PHP Buildpack Binary Builder (vagrant)"
-    end
-
-    # DIGITAL OCEAN
-    trusty.vm.provider "digital_ocean" do |digitalocean, override|
-      digitalocean.image  = 'Ubuntu 14.04 x64'
-      trusty.vm.hostname = 'ubuntu-14.04-cf-php-buildpack-binary-builder'
     end
   end
 
@@ -31,12 +26,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "digital_ocean" do |digitalocean, override|
     override.vm.box     = 'digital_ocean'
     override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    override.vm.synced_folder '../../', '/vagrant', disabled: true
 
     digitalocean.region = 'nyc2'
     digitalocean.size   = '1GB'
+    digitalocean.image  = 'Ubuntu 14.04 x64'
     
+    digitalocean.ssh_key_name = ENV.fetch("SSH_KEY_NAME", 'Vagrant')
     override.ssh.private_key_path = ENV.fetch("SSH_PRIVATE_KEY_PATH", '~/.ssh/id_rsa')
-    digitalocean.token            = ENV.fetch("DO_API_TOKEN", 'YOUR API TOKEN')
+    digitalocean.token = ENV.fetch("DO_API_TOKEN", 'YOUR API TOKEN')
   end
 
 #######################################################################################

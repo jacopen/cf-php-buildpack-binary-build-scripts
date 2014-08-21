@@ -17,7 +17,27 @@
 #
 set -e
 
-function run_build() {
+function is_do() {
+    VM=$1
+    RES=$("$VM/vm_ctl" status | grep digital_ocean)
+    if [ "$RES" == "" ]; then
+        return 0;
+    else
+        return 1;
+    fi
+}
+
+function scp_helper() {
+    VM=$1
+    SSHCFG=$("$VM"/vm_ctl ssh-config)
+    HOST=$(echo "$SSHCFG" | grep HostName | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
+    USER=$(echo "$SSHCFG" | grep "User " | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
+    PORT=$(echo "$SSHCFG" | grep Port | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
+    KEY=$(echo "$SSHCFG" | grep IdentityFile | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
+    scp -r -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* ./output/
+}
+
+function run_build_local() {
     VM=$1
     PKG=$2
     echo "Running build for [$(basename $VM)]"
@@ -27,6 +47,20 @@ function run_build() {
     else
         "$VM/vm_ctl" ssh -c "cd \$HOME; /vagrant/build/run_local.sh $PKG"
     fi
+    "$VM/vm_ctl" suspend
+}
+
+function run_build_do() {
+    VM=$1
+    PKG=$2
+    echo "Running build for [$(basename $VM)]"
+    "$VM/vm_ctl" up
+    if [ "$PKG" == "" ]; then
+        "$VM/vm_ctl" ssh -c 'cd $HOME; bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh )'
+    else
+        "$VM/vm_ctl" ssh -c "cd \$HOME; bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh ) $PKG"
+    fi
+    scp_helper "$VM"
     "$VM/vm_ctl" suspend
 }
 
@@ -44,8 +78,19 @@ echo "Local working directory [$ROOT]"
 
 if [ "$1" == "all" ]; then
     for VM in "$ROOT/vagrant/"*; do
-        run_build "$VM" "$2"
+        is_do "$VM" && CHK="0" || CHK="1"
+        if [ "$CHK" == 1 ]; then
+            run_build_do "$VM" "$2"
+        else
+            run_build_local "$VM" "$2"
+        fi
     done
 else
-    run_build "$ROOT/vagrant/$1" "$2"
+    VM="$ROOT/vagrant/$1"
+    is_do "$VM" && CHK="0" || CHK="1"
+    if [ "$CHK" == 1 ]; then
+        run_build_do "$VM" "$2"
+    else
+        run_build_local "$VM" "$2"
+    fi
 fi

@@ -8,20 +8,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 #######################################################################################
 ######################### UBUNTU 12.04 precise ########################################
+  config.vm.box = "box-cutter/ubuntu1204"
+  config.vm.synced_folder '../../', '/vagrant'
 
   config.vm.define "precise" do |precise|
-    config.vm.box = "box-cutter/ubuntu1204"
-    config.vm.synced_folder '../../', '/vagrant'
+    precise.vm.hostname = 'ubuntu-12.04-cf-php-buildpack-binary-builder'
 
     # VIRTUALBOX
     precise.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "Ubuntu 12.04 precise - CF PHP Buildpack Binary Builder (vagrant)"
-    end
-
-    # DIGITAL OCEAN
-    precise.vm.provider "digital_ocean" do |digitalocean, override|
-      digitalocean.image  = 'Ubuntu 12.04 x64'
-      precise.vm.hostname = 'ubuntu-12.04-cf-php-buildpack-binary-builder'
     end
   end
 
@@ -30,13 +25,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "digital_ocean" do |digitalocean, override|
     override.vm.box     = 'digital_ocean'
-    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"  override.vm.synced_folder '../../', '/vagrant', disabled: true
 
     digitalocean.region = 'nyc2'
     digitalocean.size   = '1GB'
+    digitalocean.image  = 'Ubuntu 12.04 x64'
     
+    digitalocean.ssh_key_name = ENV.fetch("SSH_KEY_NAME", 'Vagrant')
     override.ssh.private_key_path = ENV.fetch("SSH_PRIVATE_KEY_PATH", '~/.ssh/id_rsa')
-    digitalocean.token            = ENV.fetch("DO_API_TOKEN", 'YOUR API TOKEN')
+    digitalocean.token = ENV.fetch("DO_API_TOKEN", 'YOUR API TOKEN')
   end
 
 #######################################################################################
