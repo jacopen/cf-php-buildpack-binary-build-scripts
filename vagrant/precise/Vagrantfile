@@ -25,7 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "digital_ocean" do |digitalocean, override|
     override.vm.box     = 'digital_ocean'
-    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"  override.vm.synced_folder '../../', '/vagrant', disabled: true
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    override.vm.synced_folder '../../', '/vagrant', disabled: true
 
     digitalocean.region = 'nyc2'
     digitalocean.size   = '1GB'
