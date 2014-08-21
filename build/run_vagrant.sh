@@ -34,7 +34,11 @@ function scp_helper() {
     USER=$(echo "$SSHCFG" | grep "User " | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
     PORT=$(echo "$SSHCFG" | grep Port | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
     KEY=$(echo "$SSHCFG" | grep IdentityFile | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
-    scp -r -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* ./output/
+    OS=$(./vagrant/lucid/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 1)
+    VERSION=$(./vagrant/lucid/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 2 | cut -d '.' -f 1,2)
+    mkdir -p "./output/$OS-$VERSION"
+    echo "Downloading build files to [./output/$OS-$VERSION]..."
+    scp -r -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* "./output/$OS-$VERSION"
 }
 
 function run_build_local() {
@@ -61,7 +65,7 @@ function run_build_do() {
         "$VM/vm_ctl" ssh -c "cd \$HOME; bash <( curl -s https://raw.githubusercontent.com/dmikusa-pivotal/cf-php-buildpack-binary-build-scripts/master/build/run_local.sh ) $PKG"
     fi
     scp_helper "$VM"
-    "$VM/vm_ctl" suspend
+    "$VM/vm_ctl" halt
 }
 
 # Get ROOT Directory
