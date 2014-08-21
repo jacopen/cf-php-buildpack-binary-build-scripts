@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     digitalocean.region = 'nyc2'
     digitalocean.size   = '1GB'
-    digitalocean.image  = 'Ubuntu 12.04 x64'
+    digitalocean.image  = 'Ubuntu 12.04.5 x64'
     
     digitalocean.ssh_key_name = ENV.fetch("SSH_KEY_NAME", 'Vagrant')
     override.ssh.private_key_path = ENV.fetch("SSH_PRIVATE_KEY_PATH", '~/.ssh/id_rsa')
