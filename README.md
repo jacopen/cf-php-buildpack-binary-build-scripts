@@ -20,7 +20,8 @@ VirtualBox or VMware Fusion, or remotely on DigitalOcean.
  1. Install [VirtualBox](https://www.virtualbox.org/) or [VMware Fusion](http://www.vmware.com/products/fusion) on your local machine.
  1. If using VMware Fusion, also install the [Vagrant provider](https://www.vagrantup.com/vmware) for it.
  1. Clone this repository.
- 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `./build/run_vagrant.sh all`. This will cycle through three Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty.  On each machine, it will build the binaries and copy them to a sub-folder of the `output` directory.  When complete the packages will all reside there.
+ 1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`) and run `./build/run_vagrant.sh all`. This will cycle through three Ubuntu virtual machines: 10.04 Lucid, 12.04 Precise, and 14.04 Trusty.  On each machine, it will build the binaries and copy them to a sub-folder of the `output` directory.  
+ 1. When the build is complete, the packages will all reside in the `output` directory on the local machine.
 
 To see what happens on each vm, refer to the `run_local.sh` script below.
 
@@ -30,11 +31,8 @@ To see what happens on each vm, refer to the `run_local.sh` script below.
  1. Install the [Digital Ocean provider for Vagrant](https://github.com/smdahlen/vagrant-digitalocean): `vagrant plugin install vagrant-digitalocean`
  1. Clone this repository.
  1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`).
- 1. Edit `Vagrantfile` to configure your private key path (`override.ssh.private_key_path`) and add your Digital Ocean API token. This is described in detail on the [Digital Ocean Vagrant Provider page](https://github.com/smdahlen/vagrant-digitalocean)
- 1. Run `vagrant up lucid --provider=digital_ocean`. This will create a new Digital Ocean droplet for use by Vagrant. You can use the same command with `precise` or `trusty`.
- 1. Run `vagrant ssh -c /vagrant/build/run_local.sh lucid` to start the build.
- 1. When the build is finished, run `scp -r root@<digitaloceandropletip> /vagrant/output/` and the `output` folder will contain all the build artifacts.
- 1. Run `vagrant destory` to destroy the Digital Ocean droplets and stop charges.
+ 1. Run `VAGRANT_DEFAULT_PROVIDER=digital_ocean DO_API_TOKEN=<your-api-token> ./build/run_vagrant.sh all`.  This assumes the default path for your private SSH key, which is `~/.ssh/id_rsa`.  If you need a different path, set `SSH_PRIVATE_KEY_PATH=<your-private-key>` as well.
+ 1. When the build is complete, files will be scp'd down to the local machine and placed in the `output` directory.
 
 This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
 
