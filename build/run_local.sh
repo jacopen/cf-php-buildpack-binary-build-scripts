@@ -13,13 +13,25 @@ set -e
 
 # Detect OS & Version
 OS=$(cat /etc/issue | cut -d ' ' -f 1)
-VERSION=$(cat /etc/issue | cut -d ' ' -f 2)
+VERSION=$(cat /etc/issue | cut -d ' ' -f 2 | cut -d '.' -f 1,2)
 
 # Install git
 if ! hash git 2>/dev/null; then
     echo "Git not installed on the local host.  Attempting to install..."
-    CAPTURE=$(cat /etc/issue | cut -d ' ' -f 1 | tr -d '\n')
-    if [ "$CAPTURE" == "Ubuntu" ]; then
+    if [ "$OS" == "Ubuntu" ]; then
+        if [ "$VERSION" == "10.04" ]; then
+            # Make sure we have a modern version of Git, as the version installed on Lucid
+            # fails to establish an SSL connection with GitHub.
+            # https://launchpad.net/~git-core/+archive/ubuntu/ppa
+            sudo apt-get update
+            sudo apt-get -y install python-software-properties
+            sudo add-apt-repository ppa:git-core/ppa
+            sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24
+            sudo apt-get update
+            # for some reason ca-certificates gets bungled
+            # on VirtualBox after running the above. A simple reinstall fixes it.
+            sudo apt-get -y install --reinstall ca-certificates
+        fi
         sudo apt-get update
         sudo apt-get -y install git-core
     elif [ "$CAPTURE" == "CentOS" ]; then 
