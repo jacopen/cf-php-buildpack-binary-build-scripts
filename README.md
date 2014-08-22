@@ -31,10 +31,22 @@ To see what happens on each vm, refer to the `run_local.sh` script below.
  1. Install the [Digital Ocean provider for Vagrant](https://github.com/smdahlen/vagrant-digitalocean): `vagrant plugin install vagrant-digitalocean`
  1. Clone this repository.
  1. Change directories to your newly-cloned repository (`cd cf-php-buildpack-binary-build-scripts`).
- 1. Run `VAGRANT_DEFAULT_PROVIDER=digital_ocean DO_API_TOKEN=<your-api-token> ./build/run_vagrant.sh all`.  This assumes the default path for your private SSH key, which is `~/.ssh/id_rsa`.  If you need a different path, set `SSH_PRIVATE_KEY_PATH=<your-private-key>` as well.
- 1. When the build is complete, files will be scp'd down to the local machine and placed in the `output` directory.
+ 1. Run `VAGRANT_DEFAULT_PROVIDER=digital_ocean DO_API_TOKEN=<your-api-token> ./build/run_vagrant.sh all`.  This assumes the default settings will be used.  For different options, see the configuration section below.
+ 1. When the build is complete, files will be scp'd down to the local machine and placed in an OS/Version specific sub-folder of the `output` directory.
+ 1. Please note that the script will halt your DO instance when it is finished.  This allows you to run subsequent builds on the same instance without having to completely rebuild and re-initialize the system.  When you are finished, run `./vagrant/<platform>/vm_ctl destroy` to delete the instance or delete it through the DO console.
 
-This will run the build script, which handles everything else.  See the `run_local.sh` script below for more details.
+To see what happens on each vm, refer to the `run_local.sh` script below.
+
+##### DigitalOcean Config Options
+
+The Vagrant scripts that start your DO instances attempts to use good default options, however there are a few settings that you can change to alter the behavior.  The following list documents the environment variables that you can set to change the script's behaviour.
+
+|      Variable     |   Explanation                                        |
+|   DO_API_TOKEN    | This sets the API Token that is required by the DO API.  This value is required. |
+|   DO_REGION       | This sets the DO Region where your instance will be created.  This defaults to `nyc2`. |
+|   DO_DROPLET_SIZE | This sets the size of the DO instance that is created.  It defaults to `1GB`, which is the minimal useful size for running these scripts.  Other valid options are `2GB`, `4GB` and `8GB`.  You can go larger, but you probably won't see any performance improvements from doing so. |
+|   SSH_KEY_NAME    | The name of your SSH Key in the DO API.  It defaults to `Vagrant`.  If you already have a key set in DO, use the name that you gave for that key. |
+|   SSH_PRIVATE_KEY_PATH | The path to the private key for the SSH key that you have configured in DO.  This defaults to `~/.ssh/id_rsa` which should work for most people. |
 
 #### Local Machine
 
