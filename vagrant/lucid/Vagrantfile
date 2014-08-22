@@ -28,8 +28,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
     override.vm.synced_folder '../../', '/vagrant', disabled: true
 
-    digitalocean.region = 'nyc2'
-    digitalocean.size   = '1GB'
+    # the DigitalOcean region. nyc1, nyc2, sfo1, ams1, etc.
+    digitalocean.region = ENV.fetch("DO_REGION", 'nyc2')
+    # the droplet size: 512MB, 1GB, 2GB, 4GB, 8GB, 16GB, 32GB, 48GB, or 64GB
+    # Recommend somewhere between 1GB and 4GB
+    digitalocean.size   = ENV.fetch("DO_DROPLET_SIZE", '1GB')
     digitalocean.image  = 'Ubuntu 10.04 x64'
 
     digitalocean.ssh_key_name = ENV.fetch("SSH_KEY_NAME", 'Vagrant')
