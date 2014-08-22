@@ -34,8 +34,8 @@ function scp_helper() {
     USER=$(echo "$SSHCFG" | grep "User " | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
     PORT=$(echo "$SSHCFG" | grep Port | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
     KEY=$(echo "$SSHCFG" | grep IdentityFile | sed -e 's/^[ \t]*//' | cut -d ' ' -f 2)
-    OS=$(./vagrant/$VM/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 1)
-    VERSION=$(./vagrant/$VM/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 2 | cut -d '.' -f 1,2)
+    OS=$(./vagrant/$(basename "$VM")/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 1)
+    VERSION=$(./vagrant/$(basename "$VM")/vm_ctl ssh -c "cat /etc/issue" | sed -n 1p | cut -d ' ' -f 2 | cut -d '.' -f 1,2)
     mkdir -p "./output/$OS-$VERSION"
     echo "Downloading build files to [./output/$OS-$VERSION]..."
     scp -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$KEY" -P "$PORT" "$USER"@"$HOST":./cf-php-buildpack-binary-build-scripts/output/* "./output/$OS-$VERSION"
