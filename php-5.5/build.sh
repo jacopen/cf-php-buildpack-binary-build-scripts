@@ -10,11 +10,11 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.15
+PHP_VERSION=5.5.16
 VERSION_POSTFIX=
 ZTS_VERSION=20121212
 # Third Party Module Versions
-RABBITMQ_C_VERSION="0.5.0"
+RABBITMQ_C_VERSION="0.5.1"
 LIBMEMCACHED_VERSION="1.0.18"
 HIREDIS_VERSION="0.11.0"
 declare -A MODULES
@@ -25,7 +25,7 @@ MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.4"
+MODULES[mongo]="1.5.5"
 MODULES[msgpack]="0.5.5"
 MODULES[phpiredis]="trunk"
 MODULES[phalcon]="1.3.2"
