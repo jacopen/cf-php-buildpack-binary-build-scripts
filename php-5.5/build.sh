@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.15
+PHP_VERSION=5.5.16
 VERSION_POSTFIX=
 ZTS_VERSION=20121212
 # Third Party Module Versions
@@ -25,7 +25,7 @@ MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.4"
+MODULES[mongo]="1.5.5"
 MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.2"
 MODULES[phpiredis]="trunk"
