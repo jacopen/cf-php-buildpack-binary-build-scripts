@@ -42,6 +42,7 @@ To see what happens on each vm, refer to the `run_local.sh` script below.
 The Vagrant scripts that start your DO instances attempts to use good default options, however there are a few settings that you can change to alter the behavior.  The following list documents the environment variables that you can set to change the script's behaviour.
 
 |      Variable     |   Explanation                                        |
+------------------- | -----------------------------------------------------|
 |   DO_API_TOKEN    | This sets the API Token that is required by the DO API.  This value is required. |
 |   DO_REGION       | This sets the DO Region where your instance will be created.  This defaults to `nyc2`. |
 |   DO_DROPLET_SIZE | This sets the size of the DO instance that is created.  It defaults to `1GB`, which is the minimal useful size for running these scripts.  Other valid options are `2GB`, `4GB` and `8GB`.  You can go larger, but you probably won't see any performance improvements from doing so. |
