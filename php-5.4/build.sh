@@ -10,31 +10,31 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.4.32
+PHP_VERSION=5.4.33
 VERSION_POSTFIX=
 ZTS_VERSION=20100525
 # Third Party Module Versions
-RABBITMQ_C_VERSION="0.5.1"
+RABBITMQ_C_VERSION="0.5.2"
 LIBMEMCACHED_VERSION="1.0.18"
 HIREDIS_VERSION="0.11.0"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[APC]="3.1.9"
 MODULES[apcu]="4.0.6"
-MODULES[igbinary]="1.1.1"
+MODULES[igbinary]="1.2.1"
 MODULES[imagick]="3.1.2"
 MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.5"
+MODULES[mongo]="1.5.6"
 MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.2"
 MODULES[phpiredis]="trunk"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[twig]="1.16.0"
-MODULES[xcache]="3.1.0"
+MODULES[xcache]="3.2.0"
 MODULES[xdebug]="2.2.5"
 MODULES[zendopcache]="7.0.3"
 # location where files are built
