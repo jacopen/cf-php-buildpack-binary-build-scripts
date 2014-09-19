@@ -10,28 +10,28 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.5.16
+PHP_VERSION=5.5.17
 VERSION_POSTFIX=
 ZTS_VERSION=20121212
 # Third Party Module Versions
-RABBITMQ_C_VERSION="0.5.1"
+RABBITMQ_C_VERSION="0.5.2"
 HIREDIS_VERSION="0.11.0"
 declare -A MODULES
 MODULES[amqp]="1.4.0"
-MODULES[igbinary]="1.1.1"
+MODULES[igbinary]="1.2.1"
 MODULES[imagick]="3.1.2"
 MODULES[intl]="3.0.0"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.5"
+MODULES[mongo]="1.5.6"
 MODULES[msgpack]="0.5.5"
 MODULES[phalcon]="1.3.2"
 MODULES[phpiredis]="trunk"
 MODULES[redis]="2.2.5"
 MODULES[sundown]="0.3.11"
 MODULES[twig]="1.16.0"
-MODULES[xcache]="3.1.0"
+MODULES[xcache]="3.2.0"
 MODULES[xdebug]="2.2.5"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
