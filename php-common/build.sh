@@ -44,6 +44,23 @@ build_hiredis() {
 	cd "$BUILD_DIR"
 }
 
+build_ioncube() {
+    cd "$BUILD_DIR"
+	if [ ! -d "ioncube" ]; then
+		curl -L -O "http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
+		tar zxf "ioncube_loaders_lin_x86-64.tar.gz"
+		rm "ioncube_loaders_lin_x86-64.tar.gz"
+		cd "ioncube"
+	else
+		cd "ioncube"
+	fi
+    cp "LICENSE.txt" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/"
+    PHP_MAJOR_VERSION=$(echo "$PHP_VERSION" | cut -c1-3)
+    cp "ioncube_loader_lin_$PHP_MAJOR_VERSION.so" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/"
+	cd "$BUILD_DIR"
+
+}
+
 build_phpiredis() {
 	cd "$BUILD_DIR"
 	if [ ! -d "phpiredis" ]; then
@@ -148,6 +165,10 @@ build_external_extension() {
 	if [ "$NAME" == "amqp" ]; then
 		build_librabbit
 	fi
+    if [ "$NAME" == "ioncube" ]; then
+        build_ioncube
+        return # commercial, but redistributable
+    fi
 	if [ "$NAME" == "phalcon" ]; then
 		build_phpalcon $VERSION
 		return # has it's own build script, so we just run it and return
