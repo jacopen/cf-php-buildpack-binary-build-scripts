@@ -36,6 +36,7 @@ MODULES[sundown]="0.3.11"
 MODULES[twig]="1.16.0"
 MODULES[xcache]="3.2.0"
 MODULES[xdebug]="2.2.5"
+MODULES[xhprof]="trunk"
 MODULES[zendopcache]="7.0.3"
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"
@@ -159,6 +160,7 @@ package_php_extensions() {
     package_php_extension "twig"
     package_php_extension "xcache"
 	package_php_extension "xdebug"
+	package_php_extension "xhprof"
 	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
