@@ -57,7 +57,7 @@ build_ioncube() {
 	fi
     cp "LICENSE.txt" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/"
     PHP_MAJOR_VERSION=$(echo "$PHP_VERSION" | cut -c1-3)
-    cp "ioncube_loader_lin_$PHP_MAJOR_VERSION.so" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/"
+    cp "ioncube_loader_lin_$PHP_MAJOR_VERSION.so" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/ioncube.so"
 	cd "$BUILD_DIR"
 
 }
