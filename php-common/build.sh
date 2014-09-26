@@ -123,6 +123,22 @@ build_xcache() {
        cd "$BUILD_DIR"
 }
 
+build_xhprof() {
+	cd "$BUILD_DIR"
+	if [ ! -d "xhprof" ]; then
+		git clone https://github.com/codizy-software/xhprof
+		cd xhprof
+	else
+		cd xhprof
+		git pull
+	fi
+	"$INSTALL_DIR/php/bin/phpize"
+	./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" 
+	make -j 5
+	make install
+	cd "$BUILD_DIR"
+}
+
 build_libmemcached() {
 	cd "$BUILD_DIR"
 	if [ ! -d "libmemcached-$LIBMEMCACHED_VERSION" ]; then
@@ -173,6 +189,10 @@ build_external_extension() {
 		build_xcache $VERSION
 		return # not part of PECL
 	fi
+    if [ "$NAME" == "xhprof" ]; then
+        build_xhprof
+        return # PECL version is buggy, get from trunk
+    fi
 	# Download and build extension from PECL
 	if [ ! -d "$NAME-$VERSION" ]; then
                 curl -L -O "http://pecl.php.net/get/$NAME-$VERSION.tgz"
