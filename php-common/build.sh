@@ -76,6 +76,22 @@ build_phpalcon() {
 	cd "$BUILD_DIR"
 }
 
+build_suhosin() {
+       cd "$BUILD_DIR"
+       SUHOSIN_VERSION=$1
+       if [ ! -d "suhosin-$SUHOSIN_VERSION" ]; then
+               curl -L -O "http://download.suhosin.org/suhosin-$SUHOSIN_VERSION.tgz"
+               tar zxf "suhosin-$SUHOSIN_VERSION.tgz"
+               rm "suhosin-$SUHOSIN_VERSION.tgz"
+       fi
+       cd "suhosin-$SUHOSIN_VERSION"
+       "$INSTALL_DIR/php/bin/phpize"
+       ./configure --with-php-config="$INSTALL_DIR/php/bin/php-config"
+       make -j 5
+       make install
+       cd "$BUILD_DIR"
+}
+
 build_twig() {
        cd "$BUILD_DIR"
        TWIG_VERSION=$1
@@ -146,6 +162,10 @@ build_external_extension() {
 		build_phpiredis
 		return # not part of PECL
 	fi
+	if [ "$NAME" == "suhosin" ]; then
+        build_suhosin $VERSION
+        return # not part of PECL
+    fi
     if [ "$NAME" == "twig" ]; then
         build_twig $VERSION
         return # not part of PECL
