@@ -133,6 +133,7 @@ build_xhprof() {
 		cd xhprof
 		git pull
 	fi
+    cd extension
 	"$INSTALL_DIR/php/bin/phpize"
 	./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" 
 	make -j 5
