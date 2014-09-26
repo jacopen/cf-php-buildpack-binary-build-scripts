@@ -26,6 +26,22 @@ build_librabbit() {
 	cd "$BUILD_DIR"
 }
 
+build_codizy() {
+	cd "$BUILD_DIR"
+	if [ ! -d "codizy-extension" ]; then
+		git clone https://github.com/codizy-software/codizy-extension
+		cd codizy-extension
+	else
+		cd codizy-extension
+		git pull
+	fi
+	"$INSTALL_DIR/php/bin/phpize"
+	./configure --with-php-config="$INSTALL_DIR/php/bin/php-config" 
+	make -j 5
+	make install
+	cd "$BUILD_DIR"
+}
+
 build_hiredis() {
     echo "----------------------  Building [hiredis] ---------------------------"
 	cd "$BUILD_DIR"
@@ -183,6 +199,10 @@ build_external_extension() {
 	if [ "$NAME" == "amqp" ]; then
 		build_librabbit
 	fi
+    if [ "$NAME" == "codizy" ]; then
+        build_codizy
+        return # not part of PECL, on github
+    fi
     if [ "$NAME" == "ioncube" ]; then
         build_ioncube
         return # commercial, but redistributable

@@ -21,6 +21,7 @@ declare -A MODULES
 MODULES[amqp]="1.4.0"
 MODULES[APC]="3.1.9"
 MODULES[apcu]="4.0.6"
+MODULES[codizy]="trunk"
 MODULES[igbinary]="1.2.1"
 MODULES[imagick]="3.1.2"
 MODULES[intl]="3.0.0"
@@ -117,6 +118,7 @@ function build_php54() {
 package_php_extensions() {
 	cd "$INSTALL_DIR"
 	package_php_extension "bz2"
+	package_php_extension "codizy"
 	package_php_extension "curl"
 	package_php_extension "dba"
     package_php_extension "exif"
