@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.6.1
+PHP_VERSION=5.6.2
 VERSION_POSTFIX=
 ZTS_VERSION=20131226
 # Third Party Module Versions
@@ -32,7 +32,7 @@ MODULES[phalcon]="1.3.3"
 MODULES[redis]="2.2.5"
 MODULES[suhosin]="0.9.36"
 MODULES[sundown]="0.3.11"
-MODULES[twig]="1.16.0"
+MODULES[twig]="1.16.1"
 MODULES[xcache]="3.2.0"
 MODULES[xdebug]="2.2.5"
 # location where files are built
