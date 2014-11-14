@@ -147,7 +147,7 @@ package_php_extensions() {
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
     package_php_extension "intl" "libicui18n.so.52" "libicuuc.so.52" "libicudata.so.52" "libicuio.so.52"
-    package_php_extension "ioncube" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/LICENSE.txt"
+    package_php_extension "ioncube"
 	package_php_extension "mailparse"
 	package_php_extension "memcache"
 	package_php_extension "memcached" "libmemcached.so" "libmemcachedutil.so"
