@@ -10,7 +10,7 @@
 ##################################################################
 #  Configuration
 #
-PHP_VERSION=5.6.2
+PHP_VERSION=5.6.3
 VERSION_POSTFIX=
 ZTS_VERSION=20131226
 # Third Party Module Versions
@@ -22,17 +22,18 @@ MODULES[amqp]="1.4.0"
 MODULES[igbinary]="1.2.1"
 MODULES[imagick]="3.1.2"
 MODULES[intl]="3.0.0"
+MODULES[ioncube]="4.7.1"
 MODULES[mailparse]="2.1.6"
 MODULES[memcache]="2.2.7"
 MODULES[memcached]="2.2.0"
-MODULES[mongo]="1.5.7"
+MODULES[mongo]="1.5.8"
 MODULES[msgpack]="0.5.5"
 MODULES[phpiredis]="trunk"
-MODULES[phalcon]="1.3.3"
+MODULES[phalcon]="1.3.4"
 MODULES[redis]="2.2.5"
 MODULES[suhosin]="0.9.36"
 MODULES[sundown]="0.3.11"
-MODULES[twig]="1.16.1"
+MODULES[twig]="1.16.2"
 MODULES[xcache]="3.2.0"
 MODULES[xdebug]="2.2.5"
 # location where files are built
