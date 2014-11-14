@@ -62,15 +62,18 @@ build_hiredis() {
 
 build_ioncube() {
     cd "$BUILD_DIR"
-	if [ ! -d "ioncube" ]; then
+    IONCUBE_VERSION=$1
+	if [ ! -d "ioncube-$IONCUBE_VERSION" ]; then
 		curl -L -O "http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 		tar zxf "ioncube_loaders_lin_x86-64.tar.gz"
 		rm "ioncube_loaders_lin_x86-64.tar.gz"
-		cd "ioncube"
+        mv "ioncube" "ioncube-$IONCUBE_VERSION"
+		cd "ioncube-$IONCUBE_VERSION"
 	else
-		cd "ioncube"
+		cd "ioncube-$IONCUBE_VERSION"
 	fi
-    cp "LICENSE.txt" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/"
+    # LICENSE.txt seems to have been removed from more recent downloads
+    #   http://www.ioncube.com/faq.php#dist
     PHP_MAJOR_VERSION=$(echo "$PHP_VERSION" | cut -c1-3)
     cp "ioncube_loader_lin_$PHP_MAJOR_VERSION.so" "$INSTALL_DIR/php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/ioncube.so"
 	cd "$BUILD_DIR"
@@ -204,7 +207,7 @@ build_external_extension() {
         return # not part of PECL, on github
     fi
     if [ "$NAME" == "ioncube" ]; then
-        build_ioncube
+        build_ioncube $VERSION
         return # commercial, but redistributable
     fi
 	if [ "$NAME" == "memcached" ]; then
