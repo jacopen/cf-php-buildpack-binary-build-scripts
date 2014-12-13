@@ -5,6 +5,7 @@ This is a set of scripts that can be used to build the binary files required by 
  * Apache httpd 2.4.x
  * Nginx 1.5.x, Nginx 1.6.x, Nginx 1.7.x, 
  * PHP 5.4.x, PHP 5.5.x, PHP 5.6.x
+ * HHVM 3.2.x (lucid only)
  * a full set of extensions for both version of PHP.
 
 The scripts are configured with variables at the top and can be used to build different versions of each project and modules for the projects.  The scripts were originally designed to be run on Ubuntu 10.04, which is the current stack used by CF.  It has been expanded to support Ubuntu 12.04 and Ubuntu 14.04 as well.  Different OS & Version combinations are supported through different branches of the repository.
