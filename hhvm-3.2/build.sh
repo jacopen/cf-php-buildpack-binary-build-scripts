@@ -71,7 +71,15 @@ mv "files_hhvm" "hhvm"
 mkdir -p "files_hhvm"
 mv "hhvm/hhvm_3.2.0~lucid_amd64.deb" "files_hhvm/"
 tar czf "hhvm-$HHVM_VERSION.tar.gz" "hhvm/"
+shasum "hhvm-$HHVM_VERSION.tar.gz" > "hhvm-$HHVM_VERSION.tar.gz.sha1"
 rm -rf "hhvm/"
 cd ../
 echo ' done'
+
+# Move packages to the output directory
+cd "$BUILD_DIR/../../"
+mkdir -p "output/hhvm-$HHVM_VERSION"
+mv "$BUILD_DIR/hhvm-$HHVM_VERSION.tar.gz" "output/hhvm-$HHVM_VERSION"
+mv "$BUILD_DIR/hhvm-$HHVM_VERSION.tar.gz.sha1" "output/hhvm-$HHVM_VERSION"
+
 echo 'HHVM Build complete.'
