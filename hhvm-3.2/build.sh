@@ -38,6 +38,7 @@ function download() {
 echo "Packaging up HHVM"
 
 # get stuff
+#  list comes from here:  https://github.com/heroku/heroku-buildpack-php/blob/master/support/build/hhvm
 download "http://dl.hhvm.com/ubuntu/pool/main/h/hhvm/hhvm_$HHVM_VERSION~lucid_amd64.deb" "hhvm"
 download "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/b/binutils/binutils_2.22-4ubuntu1~10.04.1_amd64.deb" "binutils"
 download "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-4.8/libstdc++6_4.8.1-2ubuntu1~10.04.1_amd64.deb" "glibc"
