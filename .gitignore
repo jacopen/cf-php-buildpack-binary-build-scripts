@@ -1,6 +1,8 @@
 apache-httpd-2.4/build
 php-5.4/build
 php-5.5/build
+php-5.6/build
+hhvm-3.2/build
 nginx-1.5/build
 nginx-1.6/build
 nginx-1.7/build
