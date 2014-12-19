@@ -117,8 +117,8 @@ build_suhosin() {
        SUHOSIN_VERSION=$1
        if [ ! -d "suhosin-$SUHOSIN_VERSION" ]; then
                curl -L -O "http://download.suhosin.org/suhosin-$SUHOSIN_VERSION.tar.gz"
-               tar zxf "suhosin-$SUHOSIN_VERSION.tgz"
-               rm "suhosin-$SUHOSIN_VERSION.tgz"
+               tar zxf "suhosin-$SUHOSIN_VERSION.tar.gz"
+               rm "suhosin-$SUHOSIN_VERSION.tar.gz"
        fi
        cd "suhosin-$SUHOSIN_VERSION"
        "$INSTALL_DIR/php/bin/phpize"
