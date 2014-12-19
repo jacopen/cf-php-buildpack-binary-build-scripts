@@ -115,7 +115,7 @@ build_suhosin() {
        cd "$BUILD_DIR"
        SUHOSIN_VERSION=$1
        if [ ! -d "suhosin-$SUHOSIN_VERSION" ]; then
-               curl -L -O "http://download.suhosin.org/suhosin-$SUHOSIN_VERSION.tgz"
+               curl -L -O "http://download.suhosin.org/suhosin-$SUHOSIN_VERSION.tar.gz"
                tar zxf "suhosin-$SUHOSIN_VERSION.tgz"
                rm "suhosin-$SUHOSIN_VERSION.tgz"
        fi
