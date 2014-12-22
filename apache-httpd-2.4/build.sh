@@ -12,7 +12,7 @@
 #
 APR_VERSION=1.5.1
 APR_ICONV_VERSION=1.2.1
-APR_UTIL_VERSION=1.5.3
+APR_UTIL_VERSION=1.5.4
 HTTPD_VERSION=2.4.10
 # location where files are built
 INSTALL_DIR="/tmp/staged/app"

@@ -63,14 +63,14 @@ function build_php54() {
 			--with-config-file-path=/home/vcap/app/php/etc \
 			--disable-static \
 			--enable-shared \
-			--enable-ftp=shared \
-			--enable-sockets=shared \
-			--enable-soap=shared \
-			--enable-fileinfo=shared \
+			--enable-ftp \
+			--enable-sockets \
+			--enable-soap \
+			--enable-fileinfo \
 			--enable-bcmath \
 			--enable-calendar \
 			--with-kerberos \
-			--enable-zip=shared \
+			--enable-zip \
 			--with-bz2=shared \
 			--with-curl=shared \
 			--enable-dba=shared \
@@ -78,15 +78,11 @@ function build_php54() {
 			--with-gdbm \
 			--with-mcrypt=shared \
 			--with-mhash=shared \
-			--with-mysql=shared \
-			--with-mysqli=shared \
-			--enable-pdo=shared \
-			--with-pdo-sqlite=shared,/usr \
-			--with-pdo-mysql=shared,mysqlnd \
+			--with-mysql=mysqlnd \
+			--with-mysqli=mysqlnd \
+			--with-pdo-mysql=mysqlnd \
 			--with-gd=shared \
-			--with-jpeg-dir=/usr \
 			--with-freetype-dir=/usr \
-			--enable-gd-native-ttf \
 			--with-pdo-pgsql=shared \
 			--with-pgsql=shared \
 			--with-pspell=shared \
@@ -98,9 +94,9 @@ function build_php54() {
 			--with-ldap-sasl \
 			--with-zlib=shared \
 			--with-snmp=shared \
-			--enable-mbstring=shared \
+			--enable-mbstring \
 			--enable-mbregex \
-			--enable-exif=shared \
+			--enable-exif \
 			--with-openssl=shared \
 			--enable-fpm
 	else
@@ -121,33 +117,22 @@ package_php_extensions() {
 	package_php_extension "codizy"
 	package_php_extension "curl"
 	package_php_extension "dba"
-	package_php_extension "exif"
-	package_php_extension "fileinfo"
-	package_php_extension "ftp"
 	package_php_extension "gd"
 	package_php_extension "gettext"
 	package_php_extension "gmp"
 	package_php_extension "imap" "libc-client.so.2007e"
 	package_php_extension "ldap"
-	package_php_extension "mbstring"
 	package_php_extension "mcrypt" "libmcrypt.so.4"
-	package_php_extension "mysqli"
-	package_php_extension "mysql"
+	package_php_extension "opcache"
 	package_php_extension "openssl"
-	package_php_extension "pdo_mysql"
 	package_php_extension "pdo_pgsql"
-	package_php_extension "pdo"
-	package_php_extension "pdo_sqlite"
+#	package_php_extension "pdo_sqlite"
 	package_php_extension "pgsql"
 	package_php_extension "pspell" "libaspell.so.15" "libpspell.so.15"
     package_php_extension_snmp
-	package_php_extension "soap"
-	package_php_extension "sockets"
 	package_php_extension "zlib"
 	# package third party extensions
 	package_php_extension "amqp" "$INSTALL_DIR/librmq-$RABBITMQ_C_VERSION/lib/librabbitmq.so.1"
-	package_php_extension "apc"
-	package_php_extension "apcu"
 	package_php_extension "igbinary"
 	package_php_extension "imagick"
 	package_php_extension "intl" "libicui18n.so.42" "libicuuc.so.42" "libicudata.so.42" "libicuio.so.42"
@@ -159,7 +144,6 @@ package_php_extensions() {
 		"$INSTALL_DIR/libmemcached-$LIBMEMCACHED_VERSION/lib/libmemcachedutil.so.2"
 	package_php_extension "mongo"
 	package_php_extension "msgpack"
-	package_php_extension "opcache"  # ZendOpcache
 	package_php_extension "phpiredis" "$INSTALL_DIR/hiredis-$HIREDIS_VERSION/lib/libhiredis.so.0.10"
 	package_php_extension "phalcon"
 	package_php_extension "redis"
@@ -169,7 +153,6 @@ package_php_extensions() {
 	package_php_extension "xcache"
 	package_php_extension "xdebug"
 	package_php_extension "xhprof"
-	package_php_extension "zip"
 	# remove packaged files
 	rm php/lib/lib*
 	rm php/lib/php/extensions/no-debug-non-zts-$ZTS_VERSION/*
@@ -215,4 +198,3 @@ mv /tmp/staged/app/php-*.gz.sha1 "output/php-$PHP_VERSION"
 rename_with_postfix
 
 echo "Done!"
-
