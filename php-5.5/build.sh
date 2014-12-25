@@ -61,19 +61,31 @@ function build_php55() {
 			--disable-static \
 			--enable-shared \
 			--enable-ftp=shared \
+			--enable-sockets=shared \
+			--enable-soap=shared \
+			--enable-fileinfo=shared \
 			--enable-bcmath \
 			--enable-calendar \
 			--with-kerberos \
+			--enable-zip=shared \
+			--with-bz2=shared \
+			--with-curl=shared \
 			--enable-dba=shared \
 			--with-cdb \
 			--with-gdbm \
+			--with-mcrypt=shared \
 			--with-mhash=shared \
-			--enable-pdo \
+			--with-mysql=shared \
+			--with-mysqli=shared \
+			--enable-pdo=shared \
 			--with-pdo-sqlite=shared,/usr \
+			--with-pdo-mysql=shared,mysqlnd \
 			--with-gd=shared \
 			--with-jpeg-dir=/usr \
 			--with-freetype-dir=/usr \
 			--enable-gd-native-ttf \
+			--with-pdo-pgsql=shared \
+			--with-pgsql=shared \
 			--with-pspell=shared \
 			--with-gettext=shared \
 			--with-gmp=shared \
@@ -81,24 +93,12 @@ function build_php55() {
 			--with-imap-ssl=shared \
 			--with-ldap=shared \
 			--with-ldap-sasl \
+			--with-zlib=shared \
 			--with-snmp=shared \
+			--enable-mbstring=shared \
 			--enable-mbregex \
+			--enable-exif=shared \
 			--with-openssl=shared \
-			--enable-ftp \
-			--with-curl=shared \
-			--enable-exif \
-			--enable-fileinfo \
-			--enable-mbstring \
-			--with-mcrypt \
-			--with-mysql \
-			--with-mysqli \
-			--with-pdo-mysql \
-			--with-pgsql \
-			--with-pdo-pgsql \
-			--enable-soap \
-			--enable-sockets \
-			--enable-zip \
-			--with-zlib \
 			--enable-fpm
 	else
 		cd "php-$PHP_VERSION"
